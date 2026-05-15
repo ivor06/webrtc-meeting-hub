@@ -1,0 +1,11 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Node.js dependencies
+node_modules/
+
+# Build outputs
+build/
+dist/
+target/
