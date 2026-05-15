@@ -1,0 +1,26 @@
+{
+  "name": "lookforshow-server",
+  "version": "0.0.1",
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "ts-node": "^2.0.0",
+    "typescript": "^2.2.2"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.0",
+    "jsonwebtoken": "9.0.0",
+    "koa": "^2.2.0",
+    "koa-body": "^1.6.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-compress": "^2.0.0",
+    "koa-router": "^7.1.1",
+    "koa-static": "^3.0.0",
+    "mongodb": "^3.6.1",
+    "winston": "^2.3.1",
+    "winston-daily-rotate-file": "^1.4.6"
+  },
+  "scripts": {
+    "test": "if find . -name '*.test.js' -print -quit | grep -q .; then mocha --require ts-node/register --reporter spec \"**/*.test.js\"; else echo \"No server tests found\"; fi",
+    "start": "node ./dist/server/app.js"
+  }
+}

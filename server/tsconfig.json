@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist/"
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.d.ts"
+  ],
+  "include": [
+    "../common/**/*.ts",
+    "./**/*.ts"
+  ]
+}

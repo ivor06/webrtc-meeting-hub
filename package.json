@@ -1,0 +1,37 @@
+{
+  "name": "lookforshow",
+  "version": "0.0.1",
+  "description": "Sharing video-translation service",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require ts-node/register --reporter spec \"common/**/*.test.js\""
+  },
+  "devDependencies": {
+    "@types/es6-shim": "^0.31.32",
+    "@types/gulp": "^4.0.2",
+    "@types/gulp-typescript": "0.0.33",
+    "@types/node": "^7.0.12",
+    "expect": "1.20.2",
+    "mocha": "^2.4.5",
+    "ts-node": "^2.0.0",
+    "typescript": "^2.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivor06/lookforshow.git"
+  },
+  "keywords": [
+    "typescript",
+    "node.js",
+    "mongodb",
+    "react",
+    "redux",
+    "video"
+  ],
+  "author": "Michael Mishkov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ivor06/lookforshow/issues"
+  },
+  "homepage": "https://github.com/ivor06/lookforshow#readme"
+}

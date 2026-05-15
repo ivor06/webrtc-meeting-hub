@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2015",
+    "sourceMap": true,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noEmitOnError": false,
+    "preserveConstEnums": false,
+    "allowJs": true,
+    "lib": [
+      "es5",
+      "es6",
+      "dom"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ],
+  "files": [
+    "./common/interfaces/user.ts"
+  ]
+}

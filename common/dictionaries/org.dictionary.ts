@@ -1,0 +1,17 @@
+const
+    ORG_KIND_LIST = ["Cafe", "Bar", "Club", "Restaurant", "Other"],
+    ORG_KIND_DEFAULT_ID = 0,
+    CAMERA_LOCATION_LIST = ["Room", "Hall", "Street"],
+    CAMERA_LOCATION_DEFAULT_ID = 0,
+    AGE_RESTRICTION_LIST = ["0+", "6+", "12+", "14+", "16+", "18+", "21+"],
+    AGE_RESTRICTION_DEFAULT_ID = 0;
+
+export {
+    ORG_KIND_LIST,
+    ORG_KIND_DEFAULT_ID,
+    CAMERA_LOCATION_LIST,
+    CAMERA_LOCATION_DEFAULT_ID,
+    AGE_RESTRICTION_LIST,
+    AGE_RESTRICTION_DEFAULT_ID
+
+}
