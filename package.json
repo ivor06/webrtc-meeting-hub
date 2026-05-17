@@ -4,7 +4,7 @@
   "description": "Sharing video-translation service",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require ts-node/register --reporter spec \"common/**/*.test.js\""
+    "test": "TS_NODE_FAST=true TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"common/**/*.test.js\""
   },
   "devDependencies": {
     "@types/es6-shim": "^0.31.32",
