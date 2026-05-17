@@ -23,6 +23,6 @@
     "**/*.d.ts"
   ],
   "files": [
-    "./common/interfaces/user.ts"
+    "./common/interfaces/User.ts"
   ]
 }
