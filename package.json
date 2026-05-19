@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "description": "Sharing video-translation service",
   "main": "index.js",
+  "packageManager": "npm@11.6.2",
+  "engines": {
+    "node": ">=24 <25",
+    "npm": ">=11 <12"
+  },
   "scripts": {
     "test": "TS_NODE_FAST=true TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"common/**/*.test.js\""
   },
