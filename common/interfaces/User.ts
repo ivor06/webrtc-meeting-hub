@@ -40,7 +40,9 @@ interface Organization {
     kind: ORG_KIND;
     name: string;
     country: string;
+    countryISO?: string;
     city: string;
+    cityId?: string;
     address: string;
     zip: string;
     phone?: string;
@@ -51,6 +53,8 @@ interface Organization {
     camera?: Camera;
     ageRestriction: AGE_RESTRICTION;
     photo?: string;
+    provinceISO?: string;
+    screenShot?: string;
     tags?: HashBoolean;
     about?: string;
 }

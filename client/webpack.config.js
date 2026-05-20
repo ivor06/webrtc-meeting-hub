@@ -20,14 +20,13 @@ module.exports = {
             {
                 test: /\w{2,}\.tsx?$/,
                 loader: 'awesome-typescript-loader',
+                options: {
+                    transpileOnly: true
+                }
             },
             {
                 test: /\.(css)$/,
                 use: ["style-loader", "css-loader"]
-            },
-            {
-                test: /\.(sass|scss)$/,
-                use: ["style-loader", "css-loader", "sass-loader"]
             },
             {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader"},
             {test: /\.(woff|woff2)$/, loader: "url-loader?prefix=font/&limit=5000"},

@@ -2,34 +2,37 @@
   "name": "lookforshow-client",
   "version": "0.0.1",
   "devDependencies": {
-    "@types/react": "^15.0.21",
-    "@types/react-dom": "^0.14.23",
-    "@types/webpack": "^2.2.14",
+    "@types/react": "15.0.21",
+    "@types/react-dom": "0.14.23",
     "awesome-typescript-loader": "^3.1.2",
     "expect": "1.20.2",
     "extract-text-webpack-plugin": "^2.0.0",
     "mocha": "^2.4.5",
-    "node-sass": "7.0.0",
-    "sass-loader": "^6.0.0",
+    "css-loader": "0.28.0",
     "ts-node": "^2.0.0",
     "typescript": "^2.2.2",
+    "file-loader": "0.11.1",
+    "style-loader": "0.16.1",
+    "url-loader": "0.5.8",
     "webpack": "^2.3.3"
   },
   "dependencies": {
-    "axios": "0.31.1",
+    "axios": "0.16.2",
     "bootstrap": "^4.1.2",
     "css-to-react-native": "^2.0.3",
+    "fixed-data-table": "0.6.4",
     "izitoast": "^1.1.1",
     "jsonschema": "^1.1.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.4",
     "react-router": "^2.8.1",
-    "redux-thunk": "^2.0.1"
+    "redux": "3.7.2",
+    "redux-thunk": "2.2.0"
   },
   "scripts": {
     "test": "TS_NODE_FAST=true TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"src/**/*.test.js\"",
-    "build": "node_modules/.bin/webpack -p",
-    "watch": "node_modules/.bin/webpack --config webpack.config.dev.js --watch"
+    "build": "webpack",
+    "watch": "webpack --config webpack.config.dev.js --watch"
   }
 }

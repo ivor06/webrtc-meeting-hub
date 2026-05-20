@@ -7,6 +7,7 @@ import InputText from "./InputText/InputText";
 import InputNumber from "./InputNumber/InputNumber";
 import InputSelect from "./InputSelect/InputSelect";
 import InputCheckBox from "./InputCheckBox/InputCheckBox";
+import InputFile from "./InputFile/InputFile";
 import UserSearchItem from "./UserSearchItem/UserSearchItem";
 
 export {
@@ -19,5 +20,6 @@ export {
     InputNumber,
     InputSelect,
     InputCheckBox,
+    InputFile,
     UserSearchItem
 };

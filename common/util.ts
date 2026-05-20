@@ -20,6 +20,7 @@ export {
     isEmptyObject,
     onError,
     isNumber,
+    isArray,
     isString,
     isBoolean,
     isObject,
@@ -154,6 +155,10 @@ function promiseSeries(promiseList: Array<Promise<any>>, callback?): Promise<any
 function isNumber(value: any): boolean {
     // return (value !== null) && !isNaN(value) && (typeof value === TYPES.NUMBER);
     return typeof value === TYPES.NUMBER || value instanceof Number;
+}
+
+function isArray(value: any): boolean {
+    return value instanceof Array;
 }
 
 function isBoolean(value: any): boolean {

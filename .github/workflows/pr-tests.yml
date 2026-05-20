@@ -14,23 +14,8 @@ concurrency:
 
 jobs:
   test:
-    name: Test ${{ matrix.module }}
+    name: Test and build
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - module: common
-            working-directory: .
-          - module: client
-            working-directory: client
-          - module: server
-            working-directory: server
-
-    defaults:
-      run:
-        working-directory: ${{ matrix.working-directory }}
 
     steps:
       - name: Check out repository
@@ -39,13 +24,22 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 24
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Run tests
+      - name: Run common tests
         run: npm test
+
+      - name: Run client tests
+        run: npm run test:client
+
+      - name: Run server tests
+        run: npm run test:server
+
+      - name: Build client
+        run: npm run build:client
 
   required-tests:
     name: PR tests passed
