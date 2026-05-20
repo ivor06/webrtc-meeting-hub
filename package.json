@@ -19,7 +19,6 @@
     "build:client": "npm --workspace client run build"
   },
   "devDependencies": {
-    "@types/es6-shim": "^0.31.32",
     "@types/node": "7.0.12",
     "expect": "1.20.2",
     "mocha": "^2.4.5",

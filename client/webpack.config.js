@@ -20,6 +20,9 @@ module.exports = {
             {
                 test: /\w{2,}\.tsx?$/,
                 loader: 'awesome-typescript-loader',
+                options: {
+                    transpileOnly: true
+                }
             },
             {
                 test: /\.(css)$/,

@@ -16,6 +16,7 @@
     "axios": "0.16.2",
     "bootstrap": "^4.1.2",
     "css-to-react-native": "^2.0.3",
+    "fixed-data-table": "0.6.4",
     "izitoast": "^1.1.1",
     "jsonschema": "^1.1.1",
     "react": "^15.4.2",
@@ -27,7 +28,7 @@
   },
   "scripts": {
     "test": "TS_NODE_FAST=true TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"src/**/*.test.js\"",
-    "build": "webpack -p",
+    "build": "webpack",
     "watch": "webpack --config webpack.config.dev.js --watch"
   }
 }

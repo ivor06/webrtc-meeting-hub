@@ -1,4 +1,4 @@
-import {JsonSchema} from "../interfaces/jsonschema";
+import {JsonSchema} from "../interfaces/JsonSchema";
 
 export const userSchema: JsonSchema = {
     id: "/User",

@@ -3,7 +3,7 @@ import {validate, ValidationError} from "jsonschema";
 import {userSchema} from "../../../common/schemas/user";
 import {loginSchema} from "../../../common/schemas/login";
 import {Login, UserInterface} from "../../../common/interfaces/User";
-import {JsonSchema} from "../../../common/interfaces/jsonschema";
+import {JsonSchema} from "../../../common/interfaces/JsonSchema";
 import {isString} from "../../../common/util";
 
 const schemaRegistry = new Map<string, JsonSchema>();

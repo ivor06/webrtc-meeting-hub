@@ -1,6 +1,6 @@
 import {SOCKET_IO_URL} from "../config/config";
 import {joinUrl} from "../../../common/url";
-import {MessageInterface} from "../../../common/interfaces/message";
+import {MessageInterface} from "../../../common/interfaces/Message";
 import {getToken} from "./localStorage.service";
 import {publishEvent} from "./pubsub.service";
 
