@@ -2,9 +2,9 @@
   "name": "lookforshow-client",
   "version": "0.0.1",
   "devDependencies": {
-    "@types/react": "^15.0.21",
-    "@types/react-dom": "^0.14.23",
-    "@types/webpack": "^2.2.14",
+    "@types/react": "15.0.21",
+    "@types/react-dom": "0.14.23",
+    "@types/webpack": "2.2.14",
     "awesome-typescript-loader": "^3.1.2",
     "expect": "1.20.2",
     "extract-text-webpack-plugin": "^2.0.0",
@@ -14,7 +14,7 @@
     "webpack": "^2.3.3"
   },
   "dependencies": {
-    "axios": "0.31.1",
+    "axios": "0.16.2",
     "bootstrap": "^4.1.2",
     "css-to-react-native": "^2.0.3",
     "izitoast": "^1.1.1",
@@ -23,7 +23,7 @@
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.4",
     "react-router": "^2.8.1",
-    "redux-thunk": "^2.0.1"
+    "redux-thunk": "2.2.0"
   },
   "scripts": {
     "test": "TS_NODE_FAST=true TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"src/**/*.test.js\"",
