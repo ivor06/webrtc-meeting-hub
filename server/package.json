@@ -2,9 +2,9 @@
   "name": "lookforshow-server",
   "version": "0.0.1",
   "devDependencies": {
-    "mocha": "^2.4.5",
-    "ts-node": "^2.0.0",
-    "typescript": "^2.2.2"
+    "mocha": "^11.7.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "bcryptjs": "^2.4.0",
@@ -20,7 +20,7 @@
     "winston-daily-rotate-file": "^1.4.6"
   },
   "scripts": {
-    "test": "if find . -name '*.test.js' -print -quit | grep -q .; then TS_NODE_FAST=true TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"**/*.test.js\"; else echo \"No server tests found\"; fi",
+    "test": "if find . -name '*.test.js' -print -quit | grep -q .; then TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"**/*.test.js\"; else echo \"No server tests found\"; fi",
     "start": "node ./dist/server/app.js"
   }
 }

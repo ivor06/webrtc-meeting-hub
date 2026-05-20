@@ -9,7 +9,7 @@
     "noImplicitAny": false,
     "noImplicitReturns": true,
     "noEmitOnError": false,
-    "preserveConstEnums": false,
+    "preserveConstEnums": true,
     "allowJs": true,
     "lib": [
       "es5",
