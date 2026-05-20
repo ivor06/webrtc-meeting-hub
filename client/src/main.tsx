@@ -11,8 +11,7 @@ import "../node_modules/izitoast/dist/css/iziToast.min.css";
 
 import "../node_modules/fixed-data-table/dist/fixed-data-table.min.css";
 
-import "./style.scss";
-import "./spinner.scss";
+import "./spinner.css";
 
 render(
     <Provider store={store}>
