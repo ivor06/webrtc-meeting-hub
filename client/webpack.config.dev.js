@@ -1,8 +1,7 @@
-const webpack = require("webpack");
 const path = require("path");
 
 module.exports = {
-    devtool: "cheap-module-eval-source-map",
+    devtool: "eval-cheap-module-source-map",
     entry: [
         "./src/main.tsx"
     ],
@@ -16,32 +15,32 @@ module.exports = {
         ]
     },
     output: {
-        path: __dirname + "/build",
+        path: path.join(__dirname, "/build"),
         publicPath: "/",
         filename: "bundle.js"
     },
     devServer: {
-        contentBase: "./src"
+        static: {
+            directory: path.join(__dirname, "src")
+        }
     },
-    plugins: [
-        new webpack.NoErrorsPlugin()
-    ],
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\w{2,}\.tsx?$/,
-                exclude: /\.d\.ts$/,
-                loader: 'awesome-typescript-loader',
+                exclude: /node_modules|\.d\.ts$/,
+                loader: "ts-loader",
                 options: {
                     transpileOnly: true
                 }
             },
             {test: /\.css$/, use: ["style-loader", "css-loader"]},
-            {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader"},
-            {test: /\.(woff|woff2)$/, loader: "url-loader?prefix=font/&limit=5000"},
-            {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/octet-stream"},
-            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=image/svg+xml"},
-            {test: /\.(png|jpg|jpeg)$/, loader: "url-loader?limit=20000"},
+            {test: /\.(sass|scss)$/, use: ["style-loader", "css-loader", "sass-loader"]},
+            {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, type: "asset/resource"},
+            {test: /\.(woff|woff2)$/, type: "asset", parser: {dataUrlCondition: {maxSize: 5000}}},
+            {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, type: "asset", parser: {dataUrlCondition: {maxSize: 10000}}},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, type: "asset", parser: {dataUrlCondition: {maxSize: 10000}}},
+            {test: /\.(png|jpg|jpeg)$/, type: "asset", parser: {dataUrlCondition: {maxSize: 20000}}},
         ]
     },
     externals: {
