@@ -10,7 +10,6 @@
     "@types/koa-router": "^7.4.8",
     "@types/koa-static": "^4.0.4",
     "@types/q": "^1.5.8",
-    "@types/socket.io": "^3.0.2",
     "mocha": "^11.7.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

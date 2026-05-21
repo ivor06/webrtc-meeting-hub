@@ -4,7 +4,6 @@ import bodyParser = require("koa-bodyparser");
 import compress = require("koa-compress");
 import * as http from "http";
 import {AddressInfo} from "net";
-import {Z_SYNC_FLUSH} from "zlib";
 
 import {SERVER} from "./config/config";
 import {routes, allowedMethods} from "./routes/index";
@@ -32,8 +31,7 @@ class Server {
         this.app.use(bodyParser());
         this.app.use(compress({
             filter: content_type => /(text|javascript)/i.test(content_type),
-            threshold: 2048,
-            flush: Z_SYNC_FLUSH
+            threshold: 2048
         }));
         this.app.use(serve(SERVER.PATH_STATIC));
         this.app.use(routes());

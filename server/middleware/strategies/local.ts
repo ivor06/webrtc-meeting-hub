@@ -85,7 +85,7 @@ const
             newPassword = generatePassword();
         if (!isValid)
             return rejectedPromise(new HttpError(400, "Bad Request", "Valid email required"));
-        log.log("new password for email", email + ":", newPassword);
+
         return findByEmail(email)
             .then(user => {
                 if (!user)
@@ -97,8 +97,7 @@ const
                     text: "Your new password for " + SERVER.DOMAIN_NAME + " is: " + newPassword,
                     html: "<p>Your new password for " + SERVER.DOMAIN_NAME + " is: <strong>" + newPassword + "</strong></p>"
                 })
-                    .then(sentMessageInfo => {
-                        log.log("sentMessageInfo:", sentMessageInfo);
+                    .then(() => {
                         return update(user);
                     });
             });
