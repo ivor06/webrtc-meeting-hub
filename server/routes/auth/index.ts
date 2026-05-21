@@ -1,4 +1,4 @@
-import * as Router from "koa-router";
+import Router = require("koa-router");
 
 import {localAllowedMethods, localRoutes} from "./local";
 

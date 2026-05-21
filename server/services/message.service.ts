@@ -1,6 +1,6 @@
 import {networkInterfaces} from "os";
-import * as https from "https";
-import * as SocketIO from "socket.io";
+import * as http from "http";
+import {Server as SocketIOServer} from "socket.io";
 
 import {IS_PRODUCTION} from "../config/config";
 import {log} from "../config/log";
@@ -22,7 +22,7 @@ const transportList = [
 
 class MessageService {
 
-    private server: SocketIO.Server;
+    private server: SocketIOServer;
 
     private clients = {};
 
@@ -215,7 +215,7 @@ class MessageService {
         }
     }
 
-    setClient(socket: SocketIO.Socket & { client: any, conn: any, request: any }, user: UserInterface) {
+    setClient(socket: any, user: UserInterface) {
 
         const
             socketId = socket.id,
@@ -244,9 +244,9 @@ class MessageService {
         this.server.sockets.emit("userStatus", user.id, true);
     }
 
-    start(serverHttps: https.Server) {
-        this.server = SocketIO.listen(serverHttps, {
-            transports: transportList
+    start(serverHttps: http.Server) {
+        this.server = new SocketIOServer(serverHttps, {
+            transports: transportList as any
         });
 
         this.server.sockets.on("connection", this.onConnect.bind(this));
