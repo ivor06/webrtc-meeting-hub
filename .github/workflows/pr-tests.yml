@@ -38,6 +38,9 @@ jobs:
       - name: Run server tests
         run: npm run test:server
 
+      - name: Build server
+        run: npm run build:server
+
       - name: Build client
         run: npm run build:client
 

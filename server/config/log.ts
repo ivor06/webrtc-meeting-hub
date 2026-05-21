@@ -23,15 +23,13 @@ const
         ]
     });
 
-winston.handleExceptions([
-    new (winston.transports.Console)(),
-    new winston.transports.DailyRotateFile({
+winston.handleExceptions(new (winston.transports.Console)());
+winston.handleExceptions(new winston.transports.DailyRotateFile({
         dataPattern: "-yyyy-MM-ddTHH",
         filename: SERVER.LOG_EXCEPTIONS_FILE,
         handleExceptions: true,
         humanReadableUnhandledException: true
-    })
-]);
+    }));
 
 export {
     log

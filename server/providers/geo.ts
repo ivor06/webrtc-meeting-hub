@@ -32,7 +32,7 @@ let countries: Collection,
     countryCache: Country[] = null;
 
 const
-    citiesCache: HashObject<City[]> = {},
+    citiesCache: HashObject<City> = {},
     citiesByCountryISOCache: HashObject<City[]> = {},
     citiesByCountryAndProvinceISOCache: HashObject<HashObject<City[]>> = {},
     provincesByCountryISOCache: HashObject<Province[]> = {};
@@ -105,7 +105,7 @@ function findCityByIdList(idList: string[] | string): Promise<City[]> {
 
     const
         idsNeedData = {},
-        cityList = (idList as string[]).map((id, index) => {
+        cityList: City[] = (idList as string[]).map((id, index) => {
             const cityLocal = citiesCache[id] || null;
             if (!cityLocal)
                 idsNeedData[id] = index;

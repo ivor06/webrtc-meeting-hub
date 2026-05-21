@@ -1,4 +1,4 @@
-import {EmailInterface} from "../interfaces/email";
+import {EmailInterface} from "../interfaces/Email";
 
 export {
     Email

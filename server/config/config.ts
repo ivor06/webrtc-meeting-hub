@@ -18,6 +18,7 @@ namespace SERVER {
     export const LOG_ERROR_FILE = IS_PRODUCTION ? "/data/log/error.log" : "logs/error.log";
     export const LOG_EXCEPTIONS_FILE = IS_PRODUCTION ? "/data/log/exceptions.log" : "logs/exceptions.log";
     export const EMAIL = "******@******.***";
+    export const DOMAIN_NAME = IS_PRODUCTION ? "my-host.com" : "localhost";
 }
 
 /* Database configure */
@@ -30,6 +31,7 @@ namespace DB {
 namespace AUTH {
     export const LOCAL = {
         JWT_SECRET: "******",
-        CREDENTIALS_LIST: ["email", "token"]
+        CREDENTIALS_LIST: ["email", "token"],
+        REMOVE_FIELD_LIST: ["password", "token"]
     };
 }

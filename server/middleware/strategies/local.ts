@@ -18,7 +18,6 @@ import {
 } from "../../providers/user";
 
 import {sendEmail} from "../../providers/email";
-import {async} from "q";
 
 const
     localRegisterInit = async (user) => {
@@ -86,7 +85,7 @@ const
             newPassword = generatePassword();
         if (!isValid)
             return rejectedPromise(new HttpError(400, "Bad Request", "Valid email required"));
-        log("new password for email", email + ":", newPassword);
+        log.log("new password for email", email + ":", newPassword);
         return findByEmail(email)
             .then(user => {
                 if (!user)
@@ -99,7 +98,7 @@ const
                     html: "<p>Your new password for " + SERVER.DOMAIN_NAME + " is: <strong>" + newPassword + "</strong></p>"
                 })
                     .then(sentMessageInfo => {
-                        log("sentMessageInfo:", sentMessageInfo);
+                        log.log("sentMessageInfo:", sentMessageInfo);
                         return update(user);
                     });
             });

@@ -2,6 +2,15 @@
   "name": "lookforshow-server",
   "version": "0.0.1",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/koa": "^2.15.0",
+    "@types/koa-bodyparser": "^4.3.12",
+    "@types/koa-compress": "^4.0.6",
+    "@types/koa-router": "^7.4.8",
+    "@types/koa-static": "^4.0.4",
+    "@types/q": "^1.5.8",
+    "@types/socket.io": "^3.0.2",
     "mocha": "^11.7.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
@@ -9,6 +18,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.0",
     "jsonwebtoken": "9.0.0",
+    "jsonschema": "^1.1.1",
     "koa": "^2.2.0",
     "koa-body": "^1.6.0",
     "koa-bodyparser": "^4.2.0",
@@ -16,10 +26,13 @@
     "koa-router": "^7.1.1",
     "koa-static": "^3.0.0",
     "mongodb": "^3.6.1",
+    "q": "^1.5.1",
+    "socket.io": "^4.8.1",
     "winston": "^2.3.1",
     "winston-daily-rotate-file": "^1.4.6"
   },
   "scripts": {
+    "build": "tsc -p tsconfig.json",
     "test": "if find . -name '*.test.js' -print -quit | grep -q .; then TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"**/*.test.js\"; else echo \"No server tests found\"; fi",
     "start": "node ./dist/server/app.js"
   }

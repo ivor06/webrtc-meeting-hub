@@ -1,8 +1,9 @@
-import * as Koa from "koa";
-import * as serve from "koa-static";
-import * as bodyParser from "koa-bodyparser";
-import * as compress from "koa-compress";
-import * as https from "https";
+import Koa = require("koa");
+import serve = require("koa-static");
+import bodyParser = require("koa-bodyparser");
+import compress = require("koa-compress");
+import * as http from "http";
+import {AddressInfo} from "net";
 import {Z_SYNC_FLUSH} from "zlib";
 
 import {SERVER} from "./config/config";
@@ -17,7 +18,7 @@ export {
 
 class Server {
     app: Koa;
-    server: https.Server;
+    server: http.Server;
 
     static bootstrap(): Server {
         return new Server();
@@ -39,8 +40,10 @@ class Server {
         this.app.use(allowedMethods());
         this.app.use(redirect);
 
-        this.server = this.app.listen(SERVER.PORT, SERVER.HOST_NAME, () =>
-            console.log("app listen on", this.server.address().address + ":" + this.server.address().port));
+        this.server = this.app.listen(SERVER.PORT, SERVER.HOST_NAME, () => {
+            const address = this.server.address() as AddressInfo;
+            console.log("app listen on", address.address + ":" + address.port);
+        });
     }
 
     close() {
