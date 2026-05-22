@@ -8,8 +8,8 @@ import {notificationError} from "./notification.service";
 const
     getUserMedia = BROWSER.isFirefox
         ? (navigator["mozGetUserMedia"]).bind(navigator)
-        : (navigator.getUserMedia || navigator["webkitGetUserMedia"] || navigator["mozGetUserMedia"]).bind(navigator),
-    RTCPeerConn: RTCPeerConnection = window["RTCPeerConnection"] || window["mozRTCPeerConnection"] || window["webkitRTCPeerConnection"] || window["PeerConnection"],
+        : ((navigator as any).getUserMedia || navigator["webkitGetUserMedia"] || navigator["mozGetUserMedia"]).bind(navigator),
+    RTCPeerConn: any = window["RTCPeerConnection"] || window["mozRTCPeerConnection"] || window["webkitRTCPeerConnection"] || window["PeerConnection"],
     RTCIceCandidate = window["RTCIceCandidate"] || window["mozRTCIceCandidate"] || window["webkitRTCIceCandidate"],
     RTCSessionDescription = window["RTCSessionDescription"] || window["mozRTCSessionDescription"] || window["webkitRTCSessionDescription"],
     pcConfiguration = {
@@ -55,7 +55,7 @@ export {
 function hangUp() {
     if (rtcPC) {
         if (rtcPC["signalingState"] !== "closed" && remoteStream) {
-            rtcPC.removeStream && rtcPC.removeStream(remoteStream);
+            (rtcPC as any).removeStream && (rtcPC as any).removeStream(remoteStream);
             remoteStream = null;
         }
 
@@ -137,10 +137,10 @@ function createRTCPeerConnection(pcConfig: RTCConfiguration = IS_PRODUCTION ? pc
         }
     };
 
-    rtcPC.onaddstream = (evt) => { // TODO onaddstream is deprecated
+    (rtcPC as any).onaddstream = (evt) => { // TODO onaddstream is deprecated
         if (evt.stream) {
             remoteStream = evt.stream;
-            publishEvent("video.src", "remote", URL.createObjectURL(remoteStream));
+            publishEvent("video.src", "remote", URL.createObjectURL(remoteStream as any));
         }
     };
 
@@ -158,8 +158,8 @@ function getMedia(rtcPCObject?: RTCPeerConnection) {
             },
             stream => {
                 if (rtcPCObject)
-                    rtcPCObject.addStream(stream);
-                publishEvent("video.src", "local", URL.createObjectURL(stream));
+                    (rtcPCObject as any).addStream(stream);
+                publishEvent("video.src", "local", URL.createObjectURL(stream as any));
             },
             notificationError.bind(null, "Did you allow using of webcam?")
         );
