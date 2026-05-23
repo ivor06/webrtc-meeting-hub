@@ -22,7 +22,7 @@
     "bootstrap": "^4.1.2",
     "css-to-react-native": "^2.0.3",
     "fixed-data-table": "0.6.4",
-    "izitoast": "^1.1.1",
+    "izitoast": "^1.4.0",
     "jsonschema": "^1.1.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
