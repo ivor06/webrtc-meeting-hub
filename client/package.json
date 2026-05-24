@@ -32,6 +32,11 @@
     "redux": "3.7.2",
     "redux-thunk": "2.2.0"
   },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "scripts": {
     "test": "TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"src/**/*.test.js\"",
     "build": "webpack --mode production",
