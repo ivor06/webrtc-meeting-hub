@@ -1,4 +1,5 @@
 import axios from "axios";
+import fetch from 'node-fetch';
 
 import {
     getCountryList, setCountryList,
@@ -45,14 +46,17 @@ function getCountryByIso(ISO: string): Country {
 
 function getProvincesByCountry(countryISO: string): Promise<Province[]> {
     const provinceListLocal = getProvinceListByCountry(countryISO);
-    return provinceListLocal
-        ? Promise.resolve(provinceListLocal)
-        : axios.get("/geo/province/byCountry/" + countryISO)
-            .then(response => {
-                const provinceList = response.data.sort(sortByName);
-                setProvinceListByCountry(countryISO, provinceList);
-                return provinceList;
-            });
+
+    if (provinceListLocal) {
+        return Promise.resolve(provinceListLocal)
+    }
+
+    const response = await fetch('/geo/province/byCountry/');
+    const data = await response.json();
+    const provinceList = data.sort(sortByName);
+    setProvinceListByCountry(countryISO, provinceList);
+
+    return provinceList;
 }
 
 function getCitiesByCountry(ISO: string): Promise<City[]> {
