@@ -1,5 +1,4 @@
 import axios from "axios";
-import fetch from 'node-fetch';
 
 import {
     getCountryList, setCountryList,
@@ -54,7 +53,7 @@ function getCountryByIso(ISO: string): Country {
     return getCountryList().find(country => country.ISO === ISO);
 }
 
-function getProvincesByCountry(countryISO: string): Promise<Province[]> {
+async function getProvincesByCountry(countryISO: string): Promise<Province[]> {
     const provinceListLocal = getProvinceListByCountry(countryISO);
 
     if (provinceListLocal) {

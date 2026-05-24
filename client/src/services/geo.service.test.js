@@ -1,9 +1,8 @@
 const {expect} = require("expect");
-const Module = require("module");
 
 describe("Testing geo.service.ts", () => {
-    const originalLoad = Module._load;
     const originalWindow = global.window;
+    const originalFetch = global.fetch;
 
     let fetchCalls;
     let fetchResponse;
@@ -22,17 +21,9 @@ describe("Testing geo.service.ts", () => {
             }
         };
 
-        Module._load = function (request, parent, isMain) {
-            if (request === "node-fetch") {
-                return {
-                    default: url => {
-                        fetchCalls.push(url);
-                        return Promise.resolve(fetchResponse);
-                    }
-                };
-            }
-
-            return originalLoad.apply(this, arguments);
+        global.fetch = url => {
+            fetchCalls.push(url);
+            return Promise.resolve(fetchResponse);
         };
 
         delete require.cache[require.resolve("./geo.service.ts")];
@@ -40,8 +31,8 @@ describe("Testing geo.service.ts", () => {
     });
 
     afterEach(() => {
-        Module._load = originalLoad;
         global.window = originalWindow;
+        global.fetch = originalFetch;
 
         delete require.cache[require.resolve("./geo.service.ts")];
         delete require.cache[require.resolve("./localStorage.service.ts")];
