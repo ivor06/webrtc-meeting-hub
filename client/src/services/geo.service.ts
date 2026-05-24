@@ -30,14 +30,24 @@ const sortByName = (item1, item2) => item1.name[DEFAULT_LANGUAGE].localeCompare(
 
 function getAllCountries(): Promise<Country[]> {
     const countryListLocal = getCountryList();
-    return countryListLocal
-        ? Promise.resolve(countryListLocal)
-        : axios.get("/geo/country/all")
-            .then(response => {
-                const countryList = response.data.sort(sortByName);
-                setCountryList(countryList);
-                return countryList;
-            });
+
+    if (countryListLocal) {
+        return Promise.resolve(countryListLocal);
+    }
+
+    return fetch("/geo/country/all")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to load countries");
+            }
+
+            return response.json();
+        })
+        .then(data => {
+            const countryList = data.sort(sortByName);
+            setCountryList(countryList);
+            return countryList;
+        });
 }
 
 function getCountryByIso(ISO: string): Country {
