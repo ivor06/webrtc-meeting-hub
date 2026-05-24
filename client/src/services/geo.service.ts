@@ -29,30 +29,43 @@ const sortByName = (item1, item2) => item1.name[DEFAULT_LANGUAGE].localeCompare(
 
 function getAllCountries(): Promise<Country[]> {
     const countryListLocal = getCountryList();
-    return countryListLocal
-        ? Promise.resolve(countryListLocal)
-        : axios.get("/geo/country/all")
-            .then(response => {
-                const countryList = response.data.sort(sortByName);
-                setCountryList(countryList);
-                return countryList;
-            });
+
+    if (countryListLocal) {
+        return Promise.resolve(countryListLocal);
+    }
+
+    return fetch("/geo/country/all")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to load countries");
+            }
+
+            return response.json();
+        })
+        .then(data => {
+            const countryList = data.sort(sortByName);
+            setCountryList(countryList);
+            return countryList;
+        });
 }
 
 function getCountryByIso(ISO: string): Country {
     return getCountryList().find(country => country.ISO === ISO);
 }
 
-function getProvincesByCountry(countryISO: string): Promise<Province[]> {
+async function getProvincesByCountry(countryISO: string): Promise<Province[]> {
     const provinceListLocal = getProvinceListByCountry(countryISO);
-    return provinceListLocal
-        ? Promise.resolve(provinceListLocal)
-        : axios.get("/geo/province/byCountry/" + countryISO)
-            .then(response => {
-                const provinceList = response.data.sort(sortByName);
-                setProvinceListByCountry(countryISO, provinceList);
-                return provinceList;
-            });
+
+    if (provinceListLocal) {
+        return Promise.resolve(provinceListLocal)
+    }
+
+    const response = await fetch('/geo/province/byCountry/');
+    const data = await response.json();
+    const provinceList = data.sort(sortByName);
+    setProvinceListByCountry(countryISO, provinceList);
+
+    return provinceList;
 }
 
 function getCitiesByCountry(ISO: string): Promise<City[]> {
