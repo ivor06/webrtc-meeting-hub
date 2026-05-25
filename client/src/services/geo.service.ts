@@ -139,6 +139,7 @@ function getCitiesByIdList(idList: string[]): Promise<City[]> {
 
 function getCitiesByCountryAndProvince(countryISO: string, provinceISO: string): Promise<City[]> {
     const cityListLocal = getCityListByCountryAndProvince(countryISO, provinceISO);
+
     return cityListLocal
         ? Promise.resolve(cityListLocal)
         : fetch("/geo/city/byCountryProvince/" + countryISO + "/" + provinceISO)
@@ -151,7 +152,7 @@ function getCitiesByCountryAndProvince(countryISO: string, provinceISO: string):
             })
             .then(data => {
                 const cities = data.sort(sortByName);
-                setCityList(cities);
+                setCityListByCountryAndProvince(countryISO, provinceISO, cities);
 
                 return cities;
             });
