@@ -45,6 +45,7 @@ function getAllCountries(): Promise<Country[]> {
         .then(data => {
             const countryList = data.sort(sortByName);
             setCountryList(countryList);
+
             return countryList;
         });
 }
@@ -140,10 +141,18 @@ function getCitiesByCountryAndProvince(countryISO: string, provinceISO: string):
     const cityListLocal = getCityListByCountryAndProvince(countryISO, provinceISO);
     return cityListLocal
         ? Promise.resolve(cityListLocal)
-        : axios.get("/geo/city/byCountryProvince/" + countryISO + "/" + provinceISO)
+        : fetch("/geo/city/byCountryProvince/" + countryISO + "/" + provinceISO)
             .then(response => {
-                const cityList = response.data.sort(sortByName);
-                setCityListByCountryAndProvince(countryISO, provinceISO, cityList);
-                return cityList;
+                if (!response.ok) {
+                    throw new Error("Failed to load cities");
+                }
+
+                return response.json();
+            })
+            .then(data => {
+                const cities = data.sort(sortByName);
+                setCityList(cities);
+
+                return cities;
             });
 }
