@@ -1,5 +1,5 @@
 const {expect} = require("expect");
-const {getAllCountries} = require("./geo.service.ts");
+const { getAllCountries, getCitiesByCountryAndProvince } = require("./geo.service.ts");
 
 describe("Testing geo.service.ts", () => {
     const originalWindow = global.window;
@@ -73,5 +73,32 @@ describe("Testing geo.service.ts", () => {
         };
 
         await expect(getAllCountries()).rejects.toThrow("Failed to load countries");
+    });
+
+    it("getCitiesByCountryAndProvince loads cities by country with axios, sorts them, and stores them locally", async () => {
+        fetchResponse = {
+            ok: true,
+            json: () => Promise.resolve([
+                {id: "bangkok", countryISO: "TH", name: {en: "Bangkok"}},
+                {id: "kuala-lumpur", countryISO: "ML", name: {en: "Kuala Lumpur"}}
+            ])
+        };
+
+        const cities = await getCitiesByCountryAndProvince();
+
+        expect(fetchCalls).toEqual(["/geo/city/byCountryProvince"]);
+        expect(cities.map(city => city.id)).toEqual(["bangkok", "kuala-lumpur"]);
+        expect(JSON.parse(storage.cityList).map(city => city.id)).toEqual(["bangkok", "kuala-lumpur"]);
+    });
+
+    it("getCitiesByCountryAndProvince returns locally stored cities without fetching", async () => {
+        storage.cityList = JSON.stringify([
+            {id: "kuala-lumpur", countryISO: "ML", name: {en: "Kuala Lumpur"}}
+        ]);
+
+        const cities = await getCitiesByCountryAndProvince();
+
+        expect(fetchCalls).toEqual([]);
+        expect(cities.map(city => city.id)).toEqual(["kuala-lumpur"]);
     });
 });
