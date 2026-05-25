@@ -1,4 +1,5 @@
 const {expect} = require("expect");
+const {getAllCountries} = require("./geo.service.ts");
 
 describe("Testing geo.service.ts", () => {
     const originalWindow = global.window;
@@ -47,8 +48,6 @@ describe("Testing geo.service.ts", () => {
             ])
         };
 
-        const {getAllCountries} = require("./geo.service.ts");
-
         const countryList = await getAllCountries();
 
         expect(fetchCalls).toEqual(["/geo/country/all"]);
@@ -61,8 +60,6 @@ describe("Testing geo.service.ts", () => {
             {ISO: "CA", name: {en: "Canada"}}
         ]);
 
-        const {getAllCountries} = require("./geo.service.ts");
-
         const countryList = await getAllCountries();
 
         expect(fetchCalls).toEqual([]);
@@ -74,8 +71,6 @@ describe("Testing geo.service.ts", () => {
             ok: false,
             json: () => Promise.resolve([])
         };
-
-        const {getAllCountries} = require("./geo.service.ts");
 
         await expect(getAllCountries()).rejects.toThrow("Failed to load countries");
     });
