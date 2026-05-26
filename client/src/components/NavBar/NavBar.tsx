@@ -1,10 +1,12 @@
 import * as React from "react";
-import {Link, IndexLink} from "react-router";
+import {NavLink} from "react-router";
 
 import {NavBarProps} from './types';
 import {publishEvent} from "../../services/pubsub.service";
 
-const NavBar = ({logoText, links, userName, isLogged, onLogout, onClick}: NavBarProps): JSX.Element => (
+const activeClassName = ({isActive}) => isActive ? "active" : undefined;
+
+const NavBar = ({logoText, links, userName, isLogged, onLogout, onClick}: NavBarProps): React.ReactElement => (
     <nav className="navbar navbar-default navbar-fixed-top">
         <div className="container-fluid flex">
             <div className="navbar-header">
@@ -47,10 +49,10 @@ const NavBar = ({logoText, links, userName, isLogged, onLogout, onClick}: NavBar
             </div>
             <div>
                 <ul className="nav navbar-nav" onClick={onClick}>
-                    <li role="presentation"><IndexLink to="/" activeClassName="active">Home</IndexLink></li>
-                    {!isLogged && <li role="presentation"><Link to="/signin" activeClassName="active">Sign in</Link></li>}
-                    {!isLogged && <li role="presentation"><Link to="/signup" activeClassName="active">Sign up</Link></li>}
-                    {<li role="presentation"><Link to="/search" activeClassName="active">Search</Link></li>}
+                    <li role="presentation"><NavLink to="/" end className={activeClassName}>Home</NavLink></li>
+                    {!isLogged && <li role="presentation"><NavLink to="/signin" className={activeClassName}>Sign in</NavLink></li>}
+                    {!isLogged && <li role="presentation"><NavLink to="/signup" className={activeClassName}>Sign up</NavLink></li>}
+                    {<li role="presentation"><NavLink to="/search" className={activeClassName}>Search</NavLink></li>}
                     {isLogged && <li role="presentation">
                         <div className="video-link" onClick={event => {
                             event.stopPropagation();
@@ -58,7 +60,7 @@ const NavBar = ({logoText, links, userName, isLogged, onLogout, onClick}: NavBar
                         }}>Video
                         </div>
                     </li>}
-                    {/*{isLogged && <li role="presentation"><Link to="/profile" activeClassName="active">Profile</Link></li>}*/}
+                    {/*{isLogged && <li role="presentation"><NavLink to="/profile" className={activeClassName}>Profile</NavLink></li>}*/}
                     {isLogged && <li role="presentation">
                         <div className="navbar-padding-top-bottom">Signed as <a>{userName}</a></div>
                     </li>}

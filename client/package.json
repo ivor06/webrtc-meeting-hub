@@ -2,8 +2,8 @@
   "name": "lookforshow-client",
   "version": "0.0.1",
   "devDependencies": {
-    "@types/react": "15.0.21",
-    "@types/react-dom": "0.14.23",
+    "@types/react": "19.2.15",
+    "@types/react-dom": "19.2.3",
     "css-loader": "^7.1.4",
     "expect": "^30.4.1",
     "mocha": "^11.7.6",
@@ -21,16 +21,15 @@
     "axios": "1.16.1",
     "bootstrap": "^4.1.2",
     "css-to-react-native": "^2.0.3",
-    "fixed-data-table": "0.6.4",
     "izitoast": "^1.4.0",
     "jsonschema": "^1.5.0",
     "node-fetch": "3.3.2",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "react-redux": "^5.0.4",
-    "react-router": "^2.8.1",
-    "redux": "3.7.2",
-    "redux-thunk": "2.2.0"
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-redux": "^9.3.0",
+    "react-router": "^7.15.1",
+    "redux": "5.0.1",
+    "redux-thunk": "3.1.0"
   },
   "browserslist": [
     ">0.2%",

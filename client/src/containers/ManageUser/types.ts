@@ -11,6 +11,8 @@ interface ManageUserProps {
     isLogged: boolean;
     user: UserInterface;
     countryList: Country[];
+    routePath: string;
+    navigate: (path: string) => void;
     actions: {
         save: (user: UserInterface, subscriptions?: HashFunction) => Promise<any>;
         login: (profile: ProfileLocal, subscriptions?: HashFunction) => Promise<any>;

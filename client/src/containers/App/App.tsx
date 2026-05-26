@@ -1,6 +1,7 @@
 import * as React from "react";
-import {connect, Prodiver} from "react-redux";
+import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import {Outlet} from "react-router";
 
 import {User} from "../../../../common/classes/User";
 import {actionCreatorMapObject} from "./actions";
@@ -33,7 +34,7 @@ class App extends React.Component<AppProps, AppState> {
                     isLogged={this.props.isLogged}
                     userName={User.getName(this.props.user)}
                     onLogout={this.props.actions.logout}/>
-                {this.props.children}
+                <Outlet/>
             </div>
         );
     }
