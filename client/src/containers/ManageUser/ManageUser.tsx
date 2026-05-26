@@ -1,5 +1,5 @@
 import * as React from "react";
-import {browserHistory} from "react-router";
+import {useLocation, useNavigate} from "react-router";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
@@ -95,7 +95,7 @@ class ManageUser extends React.Component<ManageUserProps, ManageUserState> {
         const
             user = this.props.user,
             currentCountryISO = user.org && user.org.countryISO || DEFAULT_COUNTRY_ISO,
-            isLogin = this.props["route"].path === "/signin",
+            isLogin = this.props.routePath === "/signin",
             countryList = this.props.countryList,
             defaultCountry = this.props.countryList.find(country => country.ISO === currentCountryISO);
 
@@ -120,15 +120,16 @@ class ManageUser extends React.Component<ManageUserProps, ManageUserState> {
         this.setProvinceList();
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(prevProps: ManageUserProps) {
         const newState: ManageUserState = {
-            isLogin: nextProps["route"].path === "/signin"
+            isLogin: this.props.routePath === "/signin"
         };
 
-        if (this.props.user && this.props.user.id !== nextProps.user.id)
-            newState.user = Object.assign({}, nextProps.user);
+        if (prevProps.user && prevProps.user.id !== this.props.user.id)
+            newState.user = Object.assign({}, this.props.user);
 
-        this.setState(newState);
+        if (prevProps.routePath !== this.props.routePath || prevProps.user.id !== this.props.user.id)
+            this.setState(newState);
     }
 
     setProvinceList(ISO: string = this.state.currentCountryISO) {
@@ -245,7 +246,7 @@ class ManageUser extends React.Component<ManageUserProps, ManageUserState> {
 
                 notificationSuccess("User saved");
 
-                browserHistory.push("/");
+                this.props.navigate("/");
             })
             .catch(error => {
                 this.setState({isSaving: false});
@@ -267,7 +268,7 @@ class ManageUser extends React.Component<ManageUserProps, ManageUserState> {
 
                 notificationSuccess("User logged in");
 
-                browserHistory.push("/");
+                this.props.navigate("/");
             })
             .catch(error => {
                 this.setState({isSaving: false});
@@ -320,4 +321,13 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageUser);
+const ConnectedManageUser = connect(mapStateToProps, mapDispatchToProps)(ManageUser);
+
+const ManageUserWithRouter = props => {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    return <ConnectedManageUser {...props} routePath={location.pathname} navigate={navigate}/>;
+};
+
+export default ManageUserWithRouter;

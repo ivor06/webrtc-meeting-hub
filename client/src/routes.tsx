@@ -1,17 +1,18 @@
 import * as React from 'react';
-import {IndexRoute, Route, Router, browserHistory} from 'react-router';
-import {Provider} from "react-redux";
+import {BrowserRouter, Route, Routes} from 'react-router';
 
 import {Home} from './components/index';
 import {App, ManageUser} from './containers/index';
 
 export const routes = (
-    <Router history={browserHistory}>
-        <Route path="/" component={App}>
-            <IndexRoute component={Home}/>
-            <Route path="/signin" component={ManageUser}/>
-            <Route path="/signup" component={ManageUser}/>
-            <Route path="/profile/edit" component={ManageUser}/>
-        </Route>
-    </Router>
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<App/>}>
+                <Route index element={<Home/>}/>
+                <Route path="signin" element={<ManageUser/>}/>
+                <Route path="signup" element={<ManageUser/>}/>
+                <Route path="profile/edit" element={<ManageUser/>}/>
+            </Route>
+        </Routes>
+    </BrowserRouter>
 );

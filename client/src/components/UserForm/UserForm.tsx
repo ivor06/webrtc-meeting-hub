@@ -8,7 +8,7 @@ const UserForm = ({
                       orgKindList, defaultKindOption, countryList, defaultCountryOption, provinceList,
                       defaultProvinceOption, cityList, defaultCityOption, cameraLocationList,
                       defaultCameraLocationOption, orgAgeRestrictionList, defaultAgeRestrictionOption
-                  }: UserFormProps): JSX.Element => (
+                  }: UserFormProps): React.ReactElement => (
     <div className="user-form padding-top-navbar">
         <h1 className="text-center">New user</h1>
         <div className="row">

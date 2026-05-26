@@ -1,5 +1,5 @@
 import * as React from "react";
-import {render} from "react-dom";
+import {createRoot} from "react-dom/client";
 import {Provider} from "react-redux";
 
 import {store} from './store/configureStore';
@@ -9,13 +9,10 @@ import "bootstrap/dist/css/bootstrap.css";
 
 import "izitoast/dist/css/iziToast.min.css";
 
-import "fixed-data-table/dist/fixed-data-table.css";
-
 import "./spinner.css";
 
-render(
+createRoot(document.getElementById("app") as HTMLElement).render(
     <Provider store={store}>
         {routes}
-    </Provider>,
-    document.getElementById("app")
+    </Provider>
 );

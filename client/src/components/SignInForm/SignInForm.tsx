@@ -3,7 +3,7 @@ import * as React from "react";
 import {InputText} from '../index';
 import {SignInFormProps} from './types';
 
-const SignInForm = ({user, fields, errors, isValid, isSaving, onChange, onBlur, onLogin}: SignInFormProps): JSX.Element => (
+const SignInForm = ({user, fields, errors, isValid, isSaving, onChange, onBlur, onLogin}: SignInFormProps): React.ReactElement => (
     <div className="user-form padding-top-navbar">
         <h1 className="text-center">New user</h1>
         <div className="row">
