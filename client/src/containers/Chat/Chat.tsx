@@ -104,8 +104,8 @@ class Chat extends React.Component<ChatProps, ChatState> {
                             <div className={"message-wrapper"}>
                                 <span className="message-text">{message.text}</span>
                                 <span className="message-time">{message.time.toLocaleTimeString()}</span>
-                                {message.hasReceivedByServer && <i className="glyphicon glyphicon-check font-8px padding-left-1px"/>}
-                                {message.hasReceivedByRecipient && <i className="glyphicon glyphicon-check font-8px padding-left-1px"/>}
+                                {message.hasReceivedByServer && <i className="font-8px padding-left-1px">✓</i>}
+                                {message.hasReceivedByRecipient && <i className="font-8px padding-left-1px">✓</i>}
                             </div>
                         </li>)}
                 </ul>}
@@ -120,16 +120,13 @@ class Chat extends React.Component<ChatProps, ChatState> {
                             onClick={event => event.stopPropagation()}
                             onChange={event => this.onInputKeyDown(event.nativeEvent)}
                             onKeyDown={event => event.nativeEvent["key"] === "Enter" && this.send()}/>
-                        <span className="input-group-btn">
+                        <span className="input-group-text p-0">
                             <button
                                 type="button"
-                                className="btn btn-default"
-                                aria-label="Left Align"
+                                className="btn btn-outline-secondary"
+                                aria-label="Send"
                                 onClick={event => this.send(event)}>
-                            <span
-                                className="glyphicon glyphicon-arrow-right"
-                                aria-hidden="true">
-                                </span>
+                            <span aria-hidden="true">→</span>
                             </button>
                         </span>
                     </div>

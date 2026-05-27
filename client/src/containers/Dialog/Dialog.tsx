@@ -55,7 +55,7 @@ class Dialog extends React.Component<DialogProps, DialogState> {
 
     render() {
         return <div id="myModal"
-                    className={"modal fade dialog" + (this.state.isDisplay ? " display-flex" : " display-none") + (this.state.isAnimation ? " in" : "")}>
+                    className={"modal fade dialog" + (this.state.isDisplay ? " display-flex" : " display-none") + (this.state.isAnimation ? " show" : "")}>
             {this.state.isDisplay && <div className="modal-dialog">
                 {this.state.content && <div
                     className={"modal-content max-height-100" + (this.state.content.isError ? " error-content" : "")}
@@ -63,16 +63,16 @@ class Dialog extends React.Component<DialogProps, DialogState> {
                     <div className={"modal-header" + (this.state.content.isError ? " alert alert-danger" : " header-info")}>
                         {this.state.content.isClosable && <button
                             type="button"
-                            className="close"
-                            data-dismiss="modal"
+                            className="btn-close"
+                            data-bs-dismiss="modal"
                             aria-hidden="true"
-                            onClick={this.hide}>&times;</button>}
+                            onClick={this.hide}/>}
                         <h4 className="modal-title text-center">{this.state.content.header ? this.state.content.header : (this.state.content.isError ? "Error" : "")}</h4>
                     </div>
                     <div className="modal-body height-auto">
                         {this.state.content.image && <div className="media-img">
                             <img
-                                className="img-rounded img-responsive img-fluid center-block pull-md-12"
+                                className="rounded img-fluid mx-auto d-block"
                                 src={this.state.content.image}/>
                         </div>}
                         {this.state.content.image && <div className="media-body">
@@ -116,4 +116,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Dialog);
-

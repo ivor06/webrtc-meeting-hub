@@ -228,15 +228,15 @@ class ManageVideo extends React.Component<ManageVideoProps, ManageVideoState> {
 
     render() {
         return <div
-            className={"modal fade dialog margin-top-navbar" + (this.state.isDisplay ? " display-flex" : " display-none") + (this.state.isAnimation ? " in" : "")}>
+            className={"modal fade dialog margin-top-navbar" + (this.state.isDisplay ? " display-flex" : " display-none") + (this.state.isAnimation ? " show" : "")}>
             <div className="modal-dialog margin-auto width-auto width-min-600 video-wrapper">
                 <div onClick={!this.state.isCalling && !this.state.isTestMode && this.hide}>
                     <div className="modal-header display-flex header-info">
                         <h4 className="modal-title margin-auto">{this.state.header}</h4>
                         <button
                             type="button"
-                            className="close icon-close"
-                            data-dismiss="modal"
+                            className="btn-close icon-close"
+                            data-bs-dismiss="modal"
                             aria-hidden="true"
                             onClick={this.hide}>&times;</button>
                     </div>
@@ -249,7 +249,7 @@ class ManageVideo extends React.Component<ManageVideoProps, ManageVideoState> {
                         <div>{this.props.getOrgNameById(this.state.remoteUserId, this.state.userList)} rejected your call</div>}
                         <div className="container-fluid">
                             <div className="row">
-                                <div className="col-ms-12 col-md-8">
+                                <div className="col-sm-12 col-md-8">
                                     {(this.state.isCalling || this.state.isTesting) && <div className="video-list">
                                         {this.state.isTesting && <canvas id="localCanvas"/>}
                                         {this.state.isTesting && <form id="form-image" encType="multipart/form-data" method="post"
