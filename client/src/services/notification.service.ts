@@ -16,15 +16,13 @@ izitoast.settings({
 function notificationError(message: string) {
     izitoast.show({
         message,
-        backgroundColor: "#bd362f",
-        icon: "glyphicon glyphicon-exclamation-sign"
+        backgroundColor: "#bd362f"
     });
 }
 
 function notificationSuccess(message: string) {
     izitoast.show({
         message,
-        backgroundColor: "#51a351",
-        icon: "glyphicon glyphicon-ok"
+        backgroundColor: "#51a351"
     });
 }

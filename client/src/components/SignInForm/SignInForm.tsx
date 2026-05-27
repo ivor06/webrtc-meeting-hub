@@ -8,10 +8,10 @@ const SignInForm = ({user, fields, errors, isValid, isSaving, onChange, onBlur, 
         <h1 className="text-center">New user</h1>
         <div className="row">
             <div className="col-md-2"/>
-            <div className="col-md-8 well">
+            <div className="col-md-8 p-4 border rounded bg-light">
                 <form>
                     <h3 className="text-center">User</h3>
-                    <fieldset className="panel panel-body">
+                    <fieldset className="card card-body">
                         <InputText
                             name={fields.localEmail}
                             type="email"
