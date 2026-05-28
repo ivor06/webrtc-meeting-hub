@@ -1,4 +1,4 @@
-import {ObjectID} from "mongodb";
+import {ObjectId} from "mongodb";
 import {HttpError} from "../../common/classes/HttpError";
 import {
     findCityByIdList, findAllCountries, findCountryByISO,
@@ -26,7 +26,7 @@ async function getCityListById(ctx) {
     const idList = ctx.params.idList.split(";");
 
     try {
-        idList.forEach(id => new ObjectID(id));
+        idList.forEach(id => new ObjectId(id));
     } catch (e) {
         throw new HttpError(400, "Bad request", "Invalid city id");
     }

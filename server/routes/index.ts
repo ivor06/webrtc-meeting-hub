@@ -1,4 +1,4 @@
-import Router = require("koa-router");
+import Router from "@koa/router";
 
 import {authRoutes, authAllowedMethods} from "./auth/index";
 import {userRoutes, userAllowedMethods} from "./user/index";

@@ -1,4 +1,4 @@
-import Router = require("koa-router");
+import Router from "@koa/router";
 
 import {countryRoutes, countryAllowedMethods} from "./country";
 import {provinceRoutes, provinceAllowedMethods} from "./province";

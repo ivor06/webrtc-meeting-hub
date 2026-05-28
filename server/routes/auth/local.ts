@@ -1,4 +1,4 @@
-import Router = require("koa-router");
+import Router from "@koa/router";
 
 import {localRegister, localLogin, localToken, localLogout} from "../../middleware/auth";
 

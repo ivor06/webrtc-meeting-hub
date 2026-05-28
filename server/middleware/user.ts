@@ -1,4 +1,4 @@
-import {ObjectID} from "mongodb";
+import {ObjectId} from "mongodb";
 import {HttpError} from "../../common/classes/HttpError";
 import {findAll, findById} from "../providers/user";
 import {isEmptyObject} from "../../common/util";
@@ -18,7 +18,7 @@ async function id(ctx) {
         throw new HttpError(400, "Bad request", "User Id required");
 
     try {
-        const idObj = new ObjectID(ctx.params.id);
+        const idObj = new ObjectId(ctx.params.id);
     } catch (e) {
         throw new HttpError(400, "Bad request", "Invalid id");
     }
