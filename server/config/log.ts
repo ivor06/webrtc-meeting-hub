@@ -1,35 +1,33 @@
 import * as winston from "winston";
-import "winston-daily-rotate-file";
+import DailyRotateFile = require("winston-daily-rotate-file");
 
 import {SERVER, IS_PRODUCTION} from "./config";
 
 const
-    log = new (winston.Logger)({
+    log = winston.createLogger({
         exitOnError: false,
         transports: [
-            new (winston.transports.Console)(),
-            new (winston.transports.DailyRotateFile)({
-                name: 'daily.info.log',
-                dataPattern: "-yyyy-MM-ddTHH",
+            new winston.transports.Console(),
+            new DailyRotateFile({
+                datePattern: "yyyy-MM-dd-HH",
                 filename: SERVER.LOG_FILE,
                 level: IS_PRODUCTION ? "debug" : "info"
             }),
-            new (winston.transports.DailyRotateFile)({
-                name: 'error.log',
-                dataPattern: "-yyyy-MM-ddTHH",
+            new DailyRotateFile({
+                datePattern: "yyyy-MM-dd-HH",
                 filename: SERVER.LOG_ERROR_FILE,
                 level: 'error'
             })
+        ],
+        exceptionHandlers: [
+            new winston.transports.Console(),
+            new DailyRotateFile({
+                datePattern: "yyyy-MM-dd-HH",
+                filename: SERVER.LOG_EXCEPTIONS_FILE,
+                handleExceptions: true
+            })
         ]
     });
-
-winston.handleExceptions(new (winston.transports.Console)());
-winston.handleExceptions(new winston.transports.DailyRotateFile({
-        dataPattern: "-yyyy-MM-ddTHH",
-        filename: SERVER.LOG_EXCEPTIONS_FILE,
-        handleExceptions: true,
-        humanReadableUnhandledException: true
-    }));
 
 export {
     log

@@ -1,4 +1,4 @@
-import {Collection, ObjectID} from "mongodb";
+import {Collection, ObjectId} from "mongodb";
 
 import {collections, connectDb, replaceId} from "./db";
 import {isEmptyObject, isString} from "../../common/util";
@@ -26,9 +26,9 @@ export {
     insertCity
 }
 
-let countries: Collection,
-    provinces: Collection,
-    cities: Collection,
+let countries: Collection<any>,
+    provinces: Collection<any>,
+    cities: Collection<any>,
     countryCache: Country[] = null;
 
 const
@@ -61,7 +61,7 @@ connectDb().then(() => {
 
 function findCountryById(id: string): Promise<Country> {
     return countries
-        .find({_id: new ObjectID(id)})
+        .find({_id: new ObjectId(id)})
         .map(replaceId)
         .limit(1)
         .next()
@@ -115,7 +115,7 @@ function findCityByIdList(idList: string[] | string): Promise<City[]> {
     return (isEmptyObject(idsNeedData))
         ? Promise.resolve(cityList)
         : cities
-            .find({_id: {$in: Object.keys(idsNeedData).map(id => new ObjectID(id))}})
+            .find({_id: {$in: Object.keys(idsNeedData).map(id => new ObjectId(id))}})
             .project(CITY_FIELDS)
             .map(replaceId)
             .toArray()
@@ -176,17 +176,17 @@ function findCitiesByCountryAndProvince(countryISO: string, provinceISO: string)
 function insertCountry(country: Country): Promise<string> {
     return countries
         .insertOne(country)
-        .then(result => (result.result.ok === 1) ? result.insertedId.toString() : null);
+        .then(result => result.acknowledged ? result.insertedId.toString() : null);
 }
 
 function insertCity(city: City): Promise<string> {
     return cities
         .insertOne(city)
-        .then(result => (result.result.ok === 1) ? result.insertedId.toString() : null);
+        .then(result => result.acknowledged ? result.insertedId.toString() : null);
 }
 
 function insertProvince(province: Province): Promise<string> {
     return provinces
         .insertOne(province)
-        .then(result => (result.result.ok === 1) ? result.insertedId.toString() : null);
+        .then(result => result.acknowledged ? result.insertedId.toString() : null);
 }

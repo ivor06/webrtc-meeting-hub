@@ -1,4 +1,4 @@
-import {Collection, ObjectID} from "mongodb";
+import {Collection, ObjectId} from "mongodb";
 import * as bcryptjs from "bcryptjs";
 import {validate, ValidationError} from "jsonschema";
 
@@ -67,12 +67,12 @@ const
         "visitList": {$slice: -1}
     }, USER_FIELDS_DEFAULT);
 
-let users: Collection;
+let users: Collection<any>;
 connectDb().then(() => users = collections["users"]);
 
 function findById(id: string): Promise<UserInterface> {
     return users
-        .find({_id: new ObjectID(id)})
+        .find({_id: new ObjectId(id)})
         .map(replaceId)
         .limit(1)
         .next()
@@ -112,7 +112,7 @@ function findAll(): Promise<UserInterface[]> {
 function insertUser(user: UserInterface): Promise<string> { // TODO Validate
     return users
         .insertOne(user)
-        .then(result => (result.result.ok === 1) ? result.insertedId.toString() : null);
+        .then(result => result.acknowledged ? result.insertedId.toString() : null);
 }
 
 function unsetToken(token: string): Promise<number> {
@@ -121,26 +121,26 @@ function unsetToken(token: string): Promise<number> {
             {"local.token": token},
             {$unset: {"local.token": ""}}
         )
-        .then(result => result.result.ok && result.result.nModified);
+        .then(result => result.acknowledged ? result.modifiedCount : 0);
 }
 
 function update(user: UserInterface): Promise<boolean> {
     return users
         .updateOne(
-            {_id: new ObjectID(user.id)},
+            {_id: new ObjectId(user.id)},
             {$set: user},
             {upsert: true}
         )
-        .then(result => result.result.ok && result.result.nModified === 1);
+        .then(result => result.acknowledged && result.modifiedCount === 1);
 }
 
 function updateVisitList(userId: string, visit: Visit): Promise<boolean> {
     return users
         .updateOne(
-            {_id: new ObjectID(userId)},
-            {$push: {visitList: visit}}
+            {_id: new ObjectId(userId)},
+            {$push: {visitList: visit} as any}
         )
-        .then(result => result.result.ok && result.result.nModified === 1);
+        .then(result => result.acknowledged && result.modifiedCount === 1);
 }
 
 function findOrCreate(user: UserInterface): Promise<string> {
