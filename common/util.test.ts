@@ -1,8 +1,8 @@
-const {expect} = require("expect");
+import {expect} from "expect";
 
-const util = require("./util.ts");
+import * as util from "./util";
 
-describe("Testing util.js", () => {
+describe("Testing util.ts", () => {
     it("isNumber", () => {
         expect(util.isNumber(894)).toEqual(true);
         expect(util.isNumber(0.6)).toEqual(true);
@@ -10,7 +10,7 @@ describe("Testing util.js", () => {
         expect(false).toEqual(util.isNumber(true));
         expect(false).toEqual(util.isNumber({}));
         expect(false).toEqual(util.isNumber([]));
-        expect(false).toEqual(util.isNumber());
+        expect(false).toEqual(util.isNumber(undefined));
         expect(false).toEqual(util.isNumber(null));
     });
     it("isString", () => {
@@ -18,7 +18,7 @@ describe("Testing util.js", () => {
         expect(true).toEqual(util.isString(``));
         expect(true).toEqual(util.isString(''));
         expect(false).toEqual(util.isString(0.1));
-        expect(false).toEqual(util.isString());
+        expect(false).toEqual(util.isString(undefined));
         expect(false).toEqual(util.isString({}));
         expect(false).toEqual(util.isString([]));
         expect(false).toEqual(util.isString(null));

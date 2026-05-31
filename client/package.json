@@ -38,7 +38,7 @@
     "not op_mini all"
   ],
   "scripts": {
-    "test": "TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"src/**/*.test.js\"",
+    "test": "TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"src/**/*.test.ts\"",
     "build": "webpack --mode production",
     "watch": "webpack --config webpack.config.dev.js --mode development --watch"
   }

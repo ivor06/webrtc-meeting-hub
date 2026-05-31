@@ -17,6 +17,10 @@
     "preserveConstEnums": true,
     "allowJs": true,
     "skipLibCheck": true,
+    "types": [
+      "node",
+      "mocha"
+    ],
     "lib": [
       "es5",
       "es6",
