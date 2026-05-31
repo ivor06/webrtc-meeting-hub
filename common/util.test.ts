@@ -10,7 +10,7 @@ describe("Testing util.ts", () => {
         expect(false).toEqual(util.isNumber(true));
         expect(false).toEqual(util.isNumber({}));
         expect(false).toEqual(util.isNumber([]));
-        expect(false).toEqual(util.isNumber());
+        expect(false).toEqual(util.isNumber(undefined));
         expect(false).toEqual(util.isNumber(null));
     });
     it("isString", () => {
@@ -18,7 +18,7 @@ describe("Testing util.ts", () => {
         expect(true).toEqual(util.isString(``));
         expect(true).toEqual(util.isString(''));
         expect(false).toEqual(util.isString(0.1));
-        expect(false).toEqual(util.isString());
+        expect(false).toEqual(util.isString(undefined));
         expect(false).toEqual(util.isString({}));
         expect(false).toEqual(util.isString([]));
         expect(false).toEqual(util.isString(null));

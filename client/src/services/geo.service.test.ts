@@ -4,8 +4,9 @@ import {City} from "../../../common/interfaces/City";
 import {Country} from "../../../common/interfaces/Country";
 
 describe("Testing geo.service.ts", () => {
-    const originalWindow = global.window;
-    const originalFetch = global.fetch;
+    const testGlobal = global as any;
+    const originalWindow = testGlobal.window;
+    const originalFetch = testGlobal.fetch;
 
     let fetchCalls: string[];
     let fetchResponse: {
@@ -34,7 +35,7 @@ describe("Testing geo.service.ts", () => {
             return Promise.resolve(axiosResponse);
         };
 
-        global.window = {
+        testGlobal.window = {
             localStorage: {
                 getItem: (key: string) => storage[key] || null,
                 setItem: (key: string, value: string) => storage[key] = value,
@@ -42,7 +43,7 @@ describe("Testing geo.service.ts", () => {
             }
         };
 
-        global.fetch = (url: string) => {
+        testGlobal.fetch = (url: string) => {
             fetchCalls.push(url);
             return Promise.resolve(fetchResponse);
         };
@@ -56,8 +57,8 @@ describe("Testing geo.service.ts", () => {
         const axios = axiosModule.default || axiosModule;
         axios.get = originalAxiosGet;
 
-        global.window = originalWindow;
-        global.fetch = originalFetch;
+        testGlobal.window = originalWindow;
+        testGlobal.fetch = originalFetch;
 
         delete require.cache[require.resolve("./geo.service.ts")];
         delete require.cache[require.resolve("./localStorage.service.ts")];
