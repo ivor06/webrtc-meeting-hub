@@ -1,6 +1,6 @@
-const {expect} = require("expect");
+import {expect} from "expect";
 
-const pubsubService = require("./pubsub.service.ts");
+import * as pubsubService from "./pubsub.service";
 
 describe("Testing pubsub.service.ts", () => {
     it("registerEvent/hasEvent/subscribeOn/publishEvent/unSubscribeAll", () => {
@@ -15,7 +15,7 @@ describe("Testing pubsub.service.ts", () => {
         expect(true).toEqual(pubsubService.hasEvent(eventName));
         expect(false).toEqual(pubsubService.hasEvent("NotExistingEventName"));
 
-        pubsubService.subscribeOn(eventName, (data1, data2) => {
+        pubsubService.subscribeOn(eventName, (data1: number, data2: {b: number}) => {
             expect(data1 ? arg1 : undefined).toEqual(data1);
             expect(data2 ? arg2 : undefined).toEqual(data2);
         });

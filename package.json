@@ -13,7 +13,7 @@
     "server"
   ],
   "scripts": {
-    "test": "TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"common/**/*.test.js\"",
+    "test": "TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"common/**/*.test.ts\"",
     "test:client": "npm --workspace client test",
     "test:server": "npm --workspace server test",
     "build:client": "npm --workspace client run build",

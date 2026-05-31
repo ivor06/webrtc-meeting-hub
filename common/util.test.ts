@@ -1,8 +1,8 @@
-const {expect} = require("expect");
+import {expect} from "expect";
 
-const util = require("./util.ts");
+import * as util from "./util";
 
-describe("Testing util.js", () => {
+describe("Testing util.ts", () => {
     it("isNumber", () => {
         expect(util.isNumber(894)).toEqual(true);
         expect(util.isNumber(0.6)).toEqual(true);
