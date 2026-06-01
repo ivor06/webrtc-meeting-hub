@@ -1,6 +1,7 @@
-const path = require("path");
+import path from "path";
+import type * as webpack from "webpack";
 
-module.exports = {
+const config: webpack.Configuration = {
     resolve: {
         extensions: ['.ts', '.tsx', '.json', '.js', '.jsx'],
         modules: [
@@ -46,3 +47,5 @@ module.exports = {
         "react-router": "ReactRouter"
     }
 };
+
+export default config;
