@@ -39,7 +39,7 @@
   ],
   "scripts": {
     "test": "TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"src/**/*.test.ts\"",
-    "build": "webpack --mode production",
-    "watch": "webpack --config webpack.config.dev.js --mode development --watch"
+    "build": "webpack --config webpack.config.ts --mode production",
+    "watch": "webpack --config webpack.config.dev.ts --mode development --watch"
   }
 }

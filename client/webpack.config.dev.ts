@@ -1,6 +1,8 @@
-const path = require("path");
+import path from "path";
+import type * as webpack from "webpack";
+import "webpack-dev-server";
 
-module.exports = {
+const config: webpack.Configuration = {
     devtool: "eval-cheap-module-source-map",
     entry: [
         "./src/main.tsx"
@@ -49,3 +51,5 @@ module.exports = {
         "react-router": "ReactRouter"
     }
 };
+
+export default config;
