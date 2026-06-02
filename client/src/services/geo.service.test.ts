@@ -1,12 +1,11 @@
-import {expect} from "expect";
+import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 
 import {City} from "../../../common/interfaces/City";
 import {Country} from "../../../common/interfaces/Country";
 
 describe("Testing geo.service.ts", () => {
-    const testGlobal = global as any;
-    const originalWindow = testGlobal.window;
-    const originalFetch = testGlobal.fetch;
+    const originalLocalStorageDescriptor = Object.getOwnPropertyDescriptor(window, "localStorage");
+    const originalFetch = globalThis.fetch;
 
     let fetchCalls: string[];
     let fetchResponse: {
@@ -17,7 +16,6 @@ describe("Testing geo.service.ts", () => {
     let axiosResponse: {
         data: City[];
     };
-    let originalAxiosGet;
     let storage: Record<string, string>;
 
     beforeEach(() => {
@@ -27,41 +25,43 @@ describe("Testing geo.service.ts", () => {
         axiosResponse = null;
         storage = {};
 
-        const axiosModule = require("axios");
-        const axios = axiosModule.default || axiosModule;
-        originalAxiosGet = axios.get;
-        axios.get = (url: string) => {
-            axiosCalls.push(url);
-            return Promise.resolve(axiosResponse);
-        };
+        vi.resetModules();
+        vi.doMock("axios", () => {
+            const axios = {
+                get: (url: string) => {
+                    axiosCalls.push(url);
+                    return Promise.resolve(axiosResponse);
+                }
+            };
 
-        testGlobal.window = {
-            localStorage: {
+            return {
+                default: axios,
+                ...axios
+            };
+        });
+
+        Object.defineProperty(window, "localStorage", {
+            configurable: true,
+            value: {
                 getItem: (key: string) => storage[key] || null,
                 setItem: (key: string, value: string) => storage[key] = value,
                 removeItem: (key: string) => delete storage[key]
             }
-        };
+        });
 
-        testGlobal.fetch = (url: string) => {
+        globalThis.fetch = ((url: string) => {
             fetchCalls.push(url);
             return Promise.resolve(fetchResponse);
-        };
-
-        delete require.cache[require.resolve("./geo.service.ts")];
-        delete require.cache[require.resolve("./localStorage.service.ts")];
+        }) as any;
     });
 
     afterEach(() => {
-        const axiosModule = require("axios");
-        const axios = axiosModule.default || axiosModule;
-        axios.get = originalAxiosGet;
+        if (originalLocalStorageDescriptor)
+            Object.defineProperty(window, "localStorage", originalLocalStorageDescriptor);
 
-        testGlobal.window = originalWindow;
-        testGlobal.fetch = originalFetch;
-
-        delete require.cache[require.resolve("./geo.service.ts")];
-        delete require.cache[require.resolve("./localStorage.service.ts")];
+        globalThis.fetch = originalFetch;
+        vi.doUnmock("axios");
+        vi.resetModules();
     });
 
     it("getAllCountries loads countries with fetch, sorts them, and stores them locally", async () => {
@@ -73,7 +73,7 @@ describe("Testing geo.service.ts", () => {
             ])
         };
 
-        const {getAllCountries} = require("./geo.service.ts");
+        const {getAllCountries} = await import("./geo.service");
 
         const countryList = await getAllCountries();
 
@@ -87,7 +87,7 @@ describe("Testing geo.service.ts", () => {
             {ISO: "CA", name: {en: "Canada"}}
         ]);
 
-        const {getAllCountries} = require("./geo.service.ts");
+        const {getAllCountries} = await import("./geo.service");
 
         const countryList = await getAllCountries();
 
@@ -101,7 +101,7 @@ describe("Testing geo.service.ts", () => {
             json: () => Promise.resolve([])
         };
 
-        const {getAllCountries} = require("./geo.service.ts");
+        const {getAllCountries} = await import("./geo.service");
 
         await expect(getAllCountries()).rejects.toThrow("Failed to load countries");
     });
@@ -114,7 +114,7 @@ describe("Testing geo.service.ts", () => {
             ]
         };
 
-        const {getCitiesByCountry} = require("./geo.service.ts");
+        const {getCitiesByCountry} = await import("./geo.service");
 
         const cityList = await getCitiesByCountry("US");
 
@@ -128,7 +128,7 @@ describe("Testing geo.service.ts", () => {
             {id: "bos", name: {en: "Boston"}}
         ]);
 
-        const {getCitiesByCountry} = require("./geo.service.ts");
+        const {getCitiesByCountry} = await import("./geo.service");
 
         const cityList = await getCitiesByCountry("US");
 
@@ -144,7 +144,7 @@ describe("Testing geo.service.ts", () => {
             ]
         };
 
-        const {getCitiesByCountryAndProvince} = require("./geo.service.ts");
+        const {getCitiesByCountryAndProvince} = await import("./geo.service");
 
         const cityList = await getCitiesByCountryAndProvince("US", "CA");
 
@@ -158,7 +158,7 @@ describe("Testing geo.service.ts", () => {
             {id: "ana", name: {en: "Anaheim"}}
         ]);
 
-        const {getCitiesByCountryAndProvince} = require("./geo.service.ts");
+        const {getCitiesByCountryAndProvince} = await import("./geo.service");
 
         const cityList = await getCitiesByCountryAndProvince("US", "CA");
 

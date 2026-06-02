@@ -2,24 +2,27 @@
   "name": "lookforshow-client",
   "version": "0.0.1",
   "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
     "@types/react": "19.2.15",
     "@types/react-dom": "19.2.3",
+    "@vitest/coverage-v8": "^4.1.8",
     "css-loader": "^7.1.4",
-    "expect": "^30.4.1",
-    "mocha": "^11.7.6",
+    "jsdom": "^29.1.1",
     "sass": "^1.100.0",
     "sass-loader": "^17.0.0",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.7",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
+    "vitest": "^4.1.8",
     "webpack": "^5.107.2",
     "webpack-cli": "^7.0.3",
     "webpack-dev-server": "^5.2.4"
   },
   "dependencies": {
-    "axios": "1.16.1",
     "@popperjs/core": "^2.11.8",
+    "axios": "1.16.1",
     "bootstrap": "^5.3.8",
     "css-to-react-native": "^3.2.0",
     "izitoast": "^1.4.0",
@@ -38,7 +41,9 @@
     "not op_mini all"
   ],
   "scripts": {
-    "test": "TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"src/**/*.test.ts\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "build": "webpack --config webpack.config.ts --mode production",
     "watch": "webpack --config webpack.config.dev.ts --mode development --watch"
   }

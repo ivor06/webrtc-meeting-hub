@@ -18,8 +18,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "types": [
-      "node",
-      "mocha"
+      "node"
     ],
     "lib": [
       "es5",

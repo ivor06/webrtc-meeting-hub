@@ -8,9 +8,9 @@
     "@types/koa-compress": "^4.0.7",
     "@types/koa-static": "^4.0.4",
     "@types/q": "^1.5.8",
-    "mocha": "^11.7.6",
     "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "if find . -name '*.test.js' -print -quit | grep -q .; then TS_NODE_TRANSPILE_ONLY=true mocha --require ts-node/register --reporter spec \"**/*.test.js\"; else echo \"No server tests found\"; fi",
+    "test": "vitest run --passWithNoTests \"**/*.test.ts\" \"**/*.test.js\"",
     "start": "node ./dist/server/app.js"
   }
 }
