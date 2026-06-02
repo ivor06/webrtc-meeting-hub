@@ -1,4 +1,4 @@
-import {expect} from "expect";
+import {describe, expect, it} from "vitest";
 
 import * as pubsubService from "./pubsub.service";
 
