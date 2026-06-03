@@ -50,7 +50,7 @@ function createPartialSchema(name: string): JsonSchema {
 
 function registerPartialSchemaList(nameList: string | string[]) {
     isString(nameList)
-        ? createPartialSchema(nameList as string)
+        ? registerSchema(nameList as string, createPartialSchema(nameList as string))
         : (nameList as string[]).forEach(name => registerSchema(name, createPartialSchema(name)));
 }
 

@@ -30,7 +30,7 @@ function getErrorMessage(error: any, scope: string): string {
     let errorMessage: string;
     if (error instanceof HttpError) {
         try {
-            errorMessage = errorMap[scope][error.status];
+            errorMessage = errorMap[scope][error.status] || defaultError;
         } catch (e) {
             errorMessage = defaultError;
         }
