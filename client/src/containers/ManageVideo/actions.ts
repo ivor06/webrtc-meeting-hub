@@ -45,6 +45,7 @@ function save(user: UserInterface) {
 
 function login(profile: ProfileLocal) {
     return dispatch => {
+        dispatch(fetchStart());
         return loginUser(profile)
             .then(user => {
                 if (user)
@@ -65,6 +66,7 @@ function loadUser(id: string) {
                 dispatch(userLoadSuccess(courses));
             })
             .catch(error => {
+                dispatch(fetchError());
                 throw error;
             });
     };
