@@ -1,5 +1,4 @@
 import {SOCKET_IO_URL} from "../config/config";
-import {joinUrl} from "../../../common/url";
 import {MessageInterface} from "../../../common/interfaces/Message";
 import {getToken} from "./localStorage.service";
 import {publishEvent} from "./pubsub.service";
@@ -45,10 +44,16 @@ function connectSocketIO() {
 
     connection = new Promise((resolve, reject) => {
         const
-            querySocketId = socketId ? "?socketId=" + socketId : null,
-            queryUserToken = userToken ? "?userToken=" + userToken : null,
-            queryTimeZone = userToken ? "?timezone=" + new Date().getTimezoneOffset() : null,
-            path = joinUrl(SOCKET_IO_URL, querySocketId, queryUserToken, queryTimeZone);
+            queryList = [];
+
+        if (socketId)
+            queryList.push("socketId=" + socketId);
+        if (userToken) {
+            queryList.push("userToken=" + userToken);
+            queryList.push("timezone=" + new Date().getTimezoneOffset());
+        }
+
+        const path = SOCKET_IO_URL + (queryList.length ? "?" + queryList.join("&") : "");
 
         socketId = null;
 
@@ -131,14 +136,10 @@ function setUserId(uId: string) {
     else if (uId !== userId) {
         userToken = getToken();
         userId = uId;
-        if (connection instanceof Promise)
+        const previousSocket = socket;
+        if (connection instanceof Promise && previousSocket)
             connection.then(() => {
-                socket.on("disconnect", () => {
-                    socket = null;
-                    socketOnConnect = null;
-                    return connectSocketIO();
-                });
-                socket.disconnect(true);
+                previousSocket.disconnect(true);
             });
         connectSocketIO();
     }
