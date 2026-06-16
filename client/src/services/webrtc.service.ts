@@ -75,6 +75,9 @@ function startRTCConnection(remoteUid: string) {
 
 function onSignal(userId: string, signal) {
 
+    if (!remoteUserId)
+        remoteUserId = userId;
+
     if (!rtcPC)
         createRTCPeerConnection();
 
