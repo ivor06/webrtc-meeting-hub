@@ -3,6 +3,7 @@ import {fireEvent, render, screen} from "@testing-library/react";
 import {beforeEach, describe, expect, it, vi} from "vitest";
 
 import Home from "./Home/Home";
+import InputNumber from "./InputNumber/InputNumber";
 import InputText from "./InputText/InputText";
 
 vi.mock("../services/pubsub.service", () => ({
@@ -48,6 +49,37 @@ describe("Testing pure components", () => {
         expect(screen.getByText("Invalid email")).toBeTruthy();
 
         fireEvent.change(input, {target: {value: "new@example.com"}});
+        fireEvent.blur(input);
+
+        expect(onChange).toHaveBeenCalled();
+        expect(onBlur).toHaveBeenCalled();
+    });
+
+    it("InputNumber renders numeric attributes and invokes callbacks", () => {
+        const
+            onChange = vi.fn(),
+            onBlur = vi.fn();
+
+        render(
+            <InputNumber
+                name="seatAmount"
+                label="Seats"
+                value={10}
+                min={0}
+                max={20}
+                error="Invalid seats"
+                onChange={onChange}
+                onBlur={onBlur}/>
+        );
+
+        const input = screen.getByDisplayValue("10") as HTMLInputElement;
+
+        expect(input.type).toEqual("number");
+        expect(input.min).toEqual("0");
+        expect(input.max).toEqual("20");
+        expect(screen.getByText("Invalid seats")).toBeTruthy();
+
+        fireEvent.change(input, {target: {value: "11"}});
         fireEvent.blur(input);
 
         expect(onChange).toHaveBeenCalled();
