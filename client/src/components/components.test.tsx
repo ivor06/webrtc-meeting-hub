@@ -3,6 +3,7 @@ import {fireEvent, render, screen} from "@testing-library/react";
 import {beforeEach, describe, expect, it, vi} from "vitest";
 
 import Home from "./Home/Home";
+import InputCheckBox from "./InputCheckBox/InputCheckBox";
 import InputNumber from "./InputNumber/InputNumber";
 import InputText from "./InputText/InputText";
 
@@ -84,5 +85,27 @@ describe("Testing pure components", () => {
 
         expect(onChange).toHaveBeenCalled();
         expect(onBlur).toHaveBeenCalled();
+    });
+
+    it("InputCheckBox renders checked state, error, and invokes change", () => {
+        const onChange = vi.fn();
+
+        render(
+            <InputCheckBox
+                name="hasSound"
+                label="Has sound"
+                checked={true}
+                error="Required"
+                onChange={onChange}/>
+        );
+
+        const checkbox = screen.getByRole("checkbox") as HTMLInputElement;
+
+        expect(checkbox.checked).toEqual(true);
+        expect(screen.getByText("Required")).toBeTruthy();
+
+        fireEvent.click(checkbox);
+
+        expect(onChange).toHaveBeenCalled();
     });
 });
