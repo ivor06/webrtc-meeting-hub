@@ -1,10 +1,11 @@
 import * as React from "react";
-import {fireEvent, render, screen} from "@testing-library/react";
+import {fireEvent, render, screen, within} from "@testing-library/react";
 import {beforeEach, describe, expect, it, vi} from "vitest";
 
 import Home from "./Home/Home";
 import InputCheckBox from "./InputCheckBox/InputCheckBox";
 import InputNumber from "./InputNumber/InputNumber";
+import InputSelect from "./InputSelect/InputSelect";
 import InputText from "./InputText/InputText";
 
 vi.mock("../services/pubsub.service", () => ({
@@ -12,6 +13,11 @@ vi.mock("../services/pubsub.service", () => ({
 }));
 
 describe("Testing pure components", () => {
+    const optionList = [
+        {value: 0, text: "Default"},
+        {value: 1, text: "First"},
+        {value: 2, text: "Second"}
+    ];
 
     beforeEach(() => {
         vi.clearAllMocks();
@@ -105,6 +111,32 @@ describe("Testing pure components", () => {
         expect(screen.getByText("Required")).toBeTruthy();
 
         fireEvent.click(checkbox);
+
+        expect(onChange).toHaveBeenCalled();
+    });
+
+    it("InputSelect renders default-filtered options and invokes change", () => {
+        const onChange = vi.fn();
+
+        render(
+            <InputSelect
+                name="kind"
+                label="Kind"
+                value={1}
+                defaultOption={optionList[0]}
+                options={optionList}
+                error="Invalid kind"
+                onChange={onChange}/>
+        );
+
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        const options = within(select).getAllByRole("option") as HTMLOptionElement[];
+
+        expect(options.map(option => option.textContent)).toEqual(["Default", "First", "Second"]);
+        expect(select.value).toEqual("1");
+        expect(screen.getByText("Invalid kind")).toBeTruthy();
+
+        fireEvent.change(select, {target: {value: "2"}});
 
         expect(onChange).toHaveBeenCalled();
     });
