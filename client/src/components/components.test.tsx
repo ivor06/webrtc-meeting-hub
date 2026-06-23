@@ -4,6 +4,7 @@ import {beforeEach, describe, expect, it, vi} from "vitest";
 
 import Home from "./Home/Home";
 import InputCheckBox from "./InputCheckBox/InputCheckBox";
+import InputDate from "./InputDate/InputDate";
 import InputNumber from "./InputNumber/InputNumber";
 import InputSelect from "./InputSelect/InputSelect";
 import InputText from "./InputText/InputText";
@@ -137,6 +138,28 @@ describe("Testing pure components", () => {
         expect(screen.getByText("Invalid kind")).toBeTruthy();
 
         fireEvent.change(select, {target: {value: "2"}});
+
+        expect(onChange).toHaveBeenCalled();
+    });
+
+    it("InputDate renders date value and invokes change", () => {
+        const onChange = vi.fn();
+
+        render(
+            <InputDate
+                name="openDate"
+                label="Open date"
+                value="2026-06-16"
+                error="Invalid date"
+                onChange={onChange}/>
+        );
+
+        const input = screen.getByDisplayValue("2026-06-16") as HTMLInputElement;
+
+        expect(input.type).toEqual("date");
+        expect(screen.getByText("Invalid date")).toBeTruthy();
+
+        fireEvent.change(input, {target: {value: "2026-06-17"}});
 
         expect(onChange).toHaveBeenCalled();
     });
