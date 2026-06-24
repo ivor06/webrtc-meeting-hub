@@ -5,6 +5,7 @@ import {beforeEach, describe, expect, it, vi} from "vitest";
 import Home from "./Home/Home";
 import InputCheckBox from "./InputCheckBox/InputCheckBox";
 import InputDate from "./InputDate/InputDate";
+import InputFile from "./InputFile/InputFile";
 import InputNumber from "./InputNumber/InputNumber";
 import InputSelect from "./InputSelect/InputSelect";
 import InputText from "./InputText/InputText";
@@ -160,6 +161,20 @@ describe("Testing pure components", () => {
         expect(screen.getByText("Invalid date")).toBeTruthy();
 
         fireEvent.change(input, {target: {value: "2026-06-17"}});
+
+        expect(onChange).toHaveBeenCalled();
+    });
+
+    it("InputFile renders optional label and invokes change", () => {
+        const onChange = vi.fn();
+
+        render(<InputFile name="avatar" label="Avatar" onChange={onChange}/>);
+
+        const input = document.querySelector("input[type='file']") as HTMLInputElement;
+
+        expect(screen.getByText("Avatar")).toBeTruthy();
+
+        fireEvent.change(input);
 
         expect(onChange).toHaveBeenCalled();
     });
