@@ -6,6 +6,7 @@ export {
     Visit,
     ProfileLocal,
     Login,
+    CAMERA_LOCATION,
     ORG_KIND
 }
 
