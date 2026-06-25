@@ -1,8 +1,10 @@
 import * as React from "react";
 import {fireEvent, render, screen, within} from "@testing-library/react";
 import {beforeEach, describe, expect, it, vi} from "vitest";
+import {CAMERA_LOCATION} from "../../../common/interfaces/User";
 
 import Home from "./Home/Home";
+import InputCamera from "./InputCamera/InputCamera";
 import InputCheckBox from "./InputCheckBox/InputCheckBox";
 import InputDate from "./InputDate/InputDate";
 import InputFile from "./InputFile/InputFile";
@@ -177,5 +179,31 @@ describe("Testing pure components", () => {
         fireEvent.change(input);
 
         expect(onChange).toHaveBeenCalled();
+    });
+
+    it("InputCamera renders nested sound and location controls", () => {
+        const onChange = vi.fn();
+
+        render(
+            <InputCamera
+                name="org.camera"
+                label="Camera"
+                value={{hasSound: true, location: CAMERA_LOCATION.INSIDE}}
+                fields={{orgCameraHasSound: "org.camera.hasSound", orgCameraLocation: "org.camera.location"}}
+                cameraLocationList={optionList}
+                defaultCameraLocationOption={optionList[0]}
+                error="Invalid camera"
+                onChange={onChange}
+                onBlur={vi.fn()}/>
+        );
+
+        expect(screen.getByText("Camera")).toBeTruthy();
+        expect(screen.getByRole("checkbox")).toHaveProperty("checked", true);
+        expect(screen.getByRole("combobox")).toHaveProperty("value", "0");
+
+        fireEvent.click(screen.getByRole("checkbox"));
+        fireEvent.change(screen.getByRole("combobox"), {target: {value: "0"}});
+
+        expect(onChange).toHaveBeenCalledTimes(2);
     });
 });
