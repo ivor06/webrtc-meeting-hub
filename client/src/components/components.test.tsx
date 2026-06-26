@@ -2,6 +2,7 @@ import * as React from "react";
 import {fireEvent, render, screen, within} from "@testing-library/react";
 import {beforeEach, describe, expect, it, vi} from "vitest";
 import {CAMERA_LOCATION} from "../../../common/interfaces/User";
+import {MemoryRouter} from "react-router";
 
 import Home from "./Home/Home";
 import InputCamera from "./InputCamera/InputCamera";
@@ -11,6 +12,8 @@ import InputFile from "./InputFile/InputFile";
 import InputNumber from "./InputNumber/InputNumber";
 import InputSelect from "./InputSelect/InputSelect";
 import InputText from "./InputText/InputText";
+import NavBar from "./NavBar/NavBar";
+import SortHeaderCell from "./SortHeaderCell/SortHeaderCell";
 
 vi.mock("../services/pubsub.service", () => ({
     publishEvent: vi.fn()
@@ -205,5 +208,33 @@ describe("Testing pure components", () => {
         fireEvent.change(screen.getByRole("combobox"), {target: {value: "0"}});
 
         expect(onChange).toHaveBeenCalledTimes(2);
+    });
+
+    it("SortHeaderCell renders sort indicators and invokes click", () => {
+        const onClick = vi.fn();
+        const {rerender} = render(<SortHeaderCell text="Name" sortDir={0 as any} classes="sorted" onClick={onClick}/>);
+
+        expect(screen.getByText(/Name/).textContent).toContain("↓");
+        fireEvent.click(screen.getByText(/Name/));
+        expect(onClick).toHaveBeenCalled();
+
+        rerender(<SortHeaderCell text="Name" sortDir={1 as any}/>);
+
+        expect(screen.getByText(/Name/).textContent).toContain("↑");
+    });
+
+    it("NavBar renders logged-out links", () => {
+        render(
+            <MemoryRouter initialEntries={["/signin"]}>
+                <NavBar logoText="Logo" isLogged={false}/>
+            </MemoryRouter>
+        );
+
+        expect(screen.getByText("Logo")).toBeTruthy();
+        expect(screen.getByText("Home")).toBeTruthy();
+        expect(screen.getByText("Sign in")).toBeTruthy();
+        expect(screen.getByText("Sign up")).toBeTruthy();
+        expect(screen.queryByText("Video")).toEqual(null);
+        expect(screen.queryByText("Logout")).toEqual(null);
     });
 });
