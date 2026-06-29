@@ -13,6 +13,7 @@ import InputNumber from "./InputNumber/InputNumber";
 import InputSelect from "./InputSelect/InputSelect";
 import InputText from "./InputText/InputText";
 import NavBar from "./NavBar/NavBar";
+import SignInForm from "./SignInForm/SignInForm";
 import SortHeaderCell from "./SortHeaderCell/SortHeaderCell";
 
 vi.mock("../services/pubsub.service", () => ({
@@ -236,5 +237,35 @@ describe("Testing pure components", () => {
         expect(screen.getByText("Sign up")).toBeTruthy();
         expect(screen.queryByText("Video")).toEqual(null);
         expect(screen.queryByText("Logout")).toEqual(null);
+    });
+
+    it("SignInForm renders fields, errors, save state, and login callback", () => {
+        const
+            onLogin = vi.fn(event => event.preventDefault()),
+            onChange = vi.fn(),
+            onBlur = vi.fn(),
+            fields = {localEmail: "local.email", localPassword: "local.password"},
+            errors = {"local.email": "invalid", "local.password": "Password required"};
+
+        render(
+            <SignInForm
+                user={{local: {email: "user@example.com", password: "secret"}}}
+                fields={fields}
+                errors={errors}
+                isValid={true}
+                isSaving={true}
+                onChange={onChange}
+                onBlur={onBlur}
+                onLogin={onLogin}/>
+        );
+
+        expect(screen.getByDisplayValue("user@example.com")).toBeTruthy();
+        expect(screen.getByDisplayValue("secret")).toBeTruthy();
+        expect(screen.getByText("Invalid email")).toBeTruthy();
+        expect(screen.getByText("Password required")).toBeTruthy();
+
+        const button = screen.getByRole("button", {name: "Signing in..."}) as HTMLButtonElement;
+
+        expect(button.disabled).toEqual(true);
     });
 });
