@@ -268,4 +268,26 @@ describe("Testing pure components", () => {
 
         expect(button.disabled).toEqual(true);
     });
+
+    it("SignInForm enables login when valid and not saving", () => {
+        const
+            onLogin = vi.fn(event => event.preventDefault()),
+            fields = {localEmail: "local.email", localPassword: "local.password"};
+
+        render(
+            <SignInForm
+                user={{local: {email: "user@example.com", password: "secret"}}}
+                fields={fields}
+                errors={{}}
+                isValid={true}
+                isSaving={false}
+                onChange={vi.fn()}
+                onBlur={vi.fn()}
+                onLogin={onLogin}/>
+        );
+
+        fireEvent.click(screen.getByRole("button", {name: "Sign In"}));
+
+        expect(onLogin).toHaveBeenCalled();
+    });
 });
