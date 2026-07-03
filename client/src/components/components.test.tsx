@@ -15,6 +15,7 @@ import InputText from "./InputText/InputText";
 import NavBar from "./NavBar/NavBar";
 import SignInForm from "./SignInForm/SignInForm";
 import SortHeaderCell from "./SortHeaderCell/SortHeaderCell";
+import UserForm from "./UserForm/UserForm";
 
 vi.mock("../services/pubsub.service", () => ({
     publishEvent: vi.fn()
@@ -289,5 +290,105 @@ describe("Testing pure components", () => {
         fireEvent.click(screen.getByRole("button", {name: "Sign In"}));
 
         expect(onLogin).toHaveBeenCalled();
+    });
+
+    it("UserForm renders user and organization controls with conditional province/city fields", () => {
+        const
+            onSave = vi.fn(event => event.preventDefault()),
+            onChange = vi.fn(),
+            onBlur = vi.fn(),
+            fields = {
+                localEmail: "local.email",
+                localPassword: "local.password",
+                localFirstName: "local.firstName",
+                localLastName: "local.lastName",
+                orgName: "org.name",
+                orgKind: "org.kind",
+                orgCountryISO: "org.countryISO",
+                orgProvinceISO: "org.provinceISO",
+                orgCityId: "org.cityId",
+                orgAddress: "org.address",
+                orgZip: "org.zip",
+                orgPhone: "org.phone",
+                orgIsNeedSendPaperInvoice: "org.isNeedSendPaperInvoice",
+                orgSeatAmount: "org.seatAmount",
+                orgOperatingTimeOpen: "org.operatingTimeOpen",
+                orgOperatingTimeClose: "org.operatingTimeClose",
+                orgAgeRestriction: "org.ageRestriction",
+                orgCamera: "org.camera",
+                orgCameraHasSound: "org.camera.hasSound",
+                orgCameraLocation: "org.camera.location"
+            },
+            selectOptions = [{value: 0, text: "Default"}, {value: 1, text: "Other"}],
+            geoOptions = [{value: "CA", text: "Canada"}, {value: "US", text: "United States"}],
+            provinceOptions = [{value: "ON", text: "Ontario"}],
+            cityOptions = [{value: "tor", text: "Toronto"}],
+            user = {
+                local: {
+                    email: "user@example.com",
+                    password: "secret",
+                    firstName: "Ada",
+                    lastName: "Lovelace"
+                },
+                org: {
+                    name: "Test Org",
+                    kind: 1,
+                    countryISO: "CA",
+                    provinceISO: "ON",
+                    cityId: "tor",
+                    address: "123 Test Street",
+                    zip: "12345",
+                    phone: "123-456-7890",
+                    isNeedSendPaperInvoice: true,
+                    seatAmount: 12,
+                    operatingTimeOpen: 8,
+                    operatingTimeClose: 17,
+                    ageRestriction: 1,
+                    camera: {
+                        hasSound: true,
+                        location: 1
+                    }
+                }
+            } as any;
+
+        render(
+            <UserForm
+                user={user}
+                fields={fields}
+                errors={{"local.email": "invalid", "orgPhone": "invalid"}}
+                isValid={true}
+                isSaving={false}
+                orgKindList={selectOptions}
+                defaultKindOption={selectOptions[0]}
+                countryList={geoOptions}
+                defaultCountryOption={geoOptions[0]}
+                provinceList={provinceOptions}
+                defaultProvinceOption={provinceOptions[0]}
+                cityList={cityOptions}
+                defaultCityOption={cityOptions[0]}
+                cameraLocationList={selectOptions}
+                defaultCameraLocationOption={selectOptions[0]}
+                orgAgeRestrictionList={selectOptions}
+                defaultAgeRestrictionOption={selectOptions[0]}
+                onChange={onChange}
+                onBlur={onBlur}
+                onSave={onSave}/>
+        );
+
+        expect(screen.getByDisplayValue("user@example.com")).toBeTruthy();
+        expect(screen.getByDisplayValue("Ada")).toBeTruthy();
+        expect(screen.getByDisplayValue("Test Org")).toBeTruthy();
+        expect(screen.getByText("Province/State")).toBeTruthy();
+        expect(screen.getByText("City")).toBeTruthy();
+        expect(screen.getByText("Public camera")).toBeTruthy();
+        expect(screen.getByText("Invalid email")).toBeTruthy();
+
+        fireEvent.change(screen.getByDisplayValue("Ada"), {target: {value: "Grace"}});
+        fireEvent.blur(screen.getByDisplayValue("Lovelace"));
+        fireEvent.click(screen.getByRole("button", {name: "Save"}));
+
+        expect(onChange).toHaveBeenCalled();
+        expect(onBlur).toHaveBeenCalled();
+        expect(onSave).toHaveBeenCalled();
     });
 });
