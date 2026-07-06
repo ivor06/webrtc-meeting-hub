@@ -391,4 +391,60 @@ describe("Testing pure components", () => {
         expect(onBlur).toHaveBeenCalled();
         expect(onSave).toHaveBeenCalled();
     });
+
+    it("UserForm hides province and city controls when option lists are empty and disables saving", () => {
+        const fields = {
+            localEmail: "local.email",
+            localPassword: "local.password",
+            localFirstName: "local.firstName",
+            localLastName: "local.lastName",
+            orgName: "org.name",
+            orgKind: "org.kind",
+            orgCountryISO: "org.countryISO",
+            orgProvinceISO: "org.provinceISO",
+            orgCityId: "org.cityId",
+            orgAddress: "org.address",
+            orgZip: "org.zip",
+            orgPhone: "org.phone",
+            orgIsNeedSendPaperInvoice: "org.isNeedSendPaperInvoice",
+            orgSeatAmount: "org.seatAmount",
+            orgOperatingTimeOpen: "org.operatingTimeOpen",
+            orgOperatingTimeClose: "org.operatingTimeClose",
+            orgAgeRestriction: "org.ageRestriction",
+            orgCamera: "org.camera",
+            orgCameraHasSound: "org.camera.hasSound",
+            orgCameraLocation: "org.camera.location"
+        };
+
+        render(
+            <UserForm
+                user={{
+                    local: {},
+                    org: {
+                        camera: {}
+                    }
+                } as any}
+                fields={fields}
+                errors={{}}
+                isValid={false}
+                isSaving={true}
+                orgKindList={optionList}
+                defaultKindOption={optionList[0]}
+                countryList={optionList}
+                defaultCountryOption={optionList[0]}
+                provinceList={[]}
+                cityList={[]}
+                cameraLocationList={optionList}
+                defaultCameraLocationOption={optionList[0]}
+                orgAgeRestrictionList={optionList}
+                defaultAgeRestrictionOption={optionList[0]}
+                onChange={vi.fn()}
+                onBlur={vi.fn()}
+                onSave={vi.fn()}/>
+        );
+
+        expect(screen.queryByText("Province/State")).toEqual(null);
+        expect(screen.queryByText("City")).toEqual(null);
+        expect((screen.getByRole("button", {name: "Saving..."}) as HTMLButtonElement).disabled).toEqual(true);
+    });
 });
