@@ -1,6 +1,7 @@
 import * as React from "react";
 import {fireEvent, render, screen, within} from "@testing-library/react";
 import {beforeEach, describe, expect, it, vi} from "vitest";
+import {CITIES, COUNTRIES} from "../../../common/dictionaries/geo.dictionary";
 import {CAMERA_LOCATION} from "../../../common/interfaces/User";
 import {MemoryRouter} from "react-router";
 
@@ -16,6 +17,7 @@ import NavBar from "./NavBar/NavBar";
 import SignInForm from "./SignInForm/SignInForm";
 import SortHeaderCell from "./SortHeaderCell/SortHeaderCell";
 import UserForm from "./UserForm/UserForm";
+import UserSearchItem from "./UserSearchItem/UserSearchItem";
 
 vi.mock("../services/pubsub.service", () => ({
     publishEvent: vi.fn()
@@ -446,5 +448,32 @@ describe("Testing pure components", () => {
         expect(screen.queryByText("Province/State")).toEqual(null);
         expect(screen.queryByText("City")).toEqual(null);
         expect((screen.getByRole("button", {name: "Saving..."}) as HTMLButtonElement).disabled).toEqual(true);
+    });
+
+    it("UserSearchItem renders status, organization, location, and invokes click", () => {
+        const onClick = vi.fn();
+        COUNTRIES["CA"] = "Canada";
+        CITIES["tor"] = "Toronto";
+
+        render(
+            <UserSearchItem
+                user={{
+                    isOnline: true,
+                    org: {
+                        name: "Test Org",
+                        city: "tor",
+                        country: "CA"
+                    }
+                } as any}
+                onClick={onClick}/>
+        );
+
+        expect(screen.getByText("online")).toBeTruthy();
+        expect(screen.getByText("Test Org")).toBeTruthy();
+        expect(screen.getByText("Toronto(Canada)")).toBeTruthy();
+
+        fireEvent.click(screen.getByText("Test Org"));
+
+        expect(onClick).toHaveBeenCalled();
     });
 });
