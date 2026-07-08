@@ -6,7 +6,7 @@ import {publishEvent, subscribeOn} from "../../services/pubsub.service";
 import {MessageInterface} from "../../../../common/interfaces/Message";
 import {sendMessage} from "../../services/message.service";
 
-class Chat extends React.Component<ChatProps, ChatState> {
+export class Chat extends React.Component<ChatProps, ChatState> {
 
     state: ChatState;
 
