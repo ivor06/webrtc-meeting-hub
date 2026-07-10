@@ -1,5 +1,5 @@
 import * as React from "react";
-import {render, screen} from "@testing-library/react";
+import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import {beforeEach, describe, expect, it, Mock, vi} from "vitest";
 
 describe("Testing Chat.tsx", () => {
@@ -35,5 +35,24 @@ describe("Testing Chat.tsx", () => {
         expect(subscribeOn).toHaveBeenCalledWith("message", expect.any(Function));
         expect(subscribeOn).toHaveBeenCalledWith("message-delivered", expect.any(Function));
         expect(screen.getByText("No messages yet")).toBeTruthy();
+    });
+
+    it("sends a typed message and marks server delivery", async () => {
+        renderChat();
+
+        fireEvent.change(screen.getByPlaceholderText("Type message"), {target: {value: "Hello"}});
+        fireEvent.click(screen.getByRole("button", {name: "Send"}));
+
+        expect(sendMessage).toHaveBeenCalledWith(expect.objectContaining({
+            userIdTo: "remote-user",
+            userIdFrom: "self-user",
+            text: "Hello",
+            hasReceivedByServer: false,
+            hasReceivedByRecipient: false
+        }));
+        expect(screen.getByText("Hello")).toBeTruthy();
+        expect((screen.getByPlaceholderText("Type message") as HTMLInputElement).value).toEqual("");
+
+        await waitFor(() => expect(screen.getByText("✓")).toBeTruthy());
     });
 });
