@@ -1,5 +1,5 @@
 import * as React from "react";
-import {fireEvent, render, screen, waitFor} from "@testing-library/react";
+import {act, fireEvent, render, screen, waitFor} from "@testing-library/react";
 import {beforeEach, describe, expect, it, Mock, vi} from "vitest";
 
 describe("Testing Chat.tsx", () => {
@@ -54,5 +54,23 @@ describe("Testing Chat.tsx", () => {
         expect((screen.getByPlaceholderText("Type message") as HTMLInputElement).value).toEqual("");
 
         await waitFor(() => expect(screen.getByText("✓")).toBeTruthy());
+    });
+
+    it("adds inbound messages and publishes ManageVideo.show", async () => {
+        renderChat();
+        const message = {
+            id: "remote-message",
+            userIdFrom: "remote-user",
+            userIdTo: "self-user",
+            text: "Incoming",
+            time: new Date(),
+            hasReceivedByServer: true,
+            hasReceivedByRecipient: false
+        };
+
+        act(() => handlers.message(message));
+
+        expect(publishEvent).toHaveBeenCalledWith("ManageVideo.show", "remote-user");
+        await waitFor(() => expect(screen.getByText("Incoming")).toBeTruthy());
     });
 });
