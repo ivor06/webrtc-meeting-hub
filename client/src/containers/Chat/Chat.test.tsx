@@ -73,4 +73,18 @@ describe("Testing Chat.tsx", () => {
         expect(publishEvent).toHaveBeenCalledWith("ManageVideo.show", "remote-user");
         await waitFor(() => expect(screen.getByText("Incoming")).toBeTruthy());
     });
+
+    it("marks messages as received by recipient", async () => {
+        renderChat();
+
+        fireEvent.change(screen.getByPlaceholderText("Type message"), {target: {value: "Delivered"}});
+        fireEvent.keyDown(screen.getByPlaceholderText("Type message"), {key: "Enter"});
+
+        await waitFor(() => expect(sendMessage).toHaveBeenCalled());
+        await waitFor(() => expect(screen.getByText("Delivered")).toBeTruthy());
+
+        handlers["message-delivered"]("message-1");
+
+        await waitFor(() => expect(screen.getAllByText("✓")).toHaveLength(2));
+    });
 });
