@@ -6,14 +6,14 @@ import {DialogProps, DialogState, DialogContent} from "./types";
 import {subscribeOn} from "../../services/pubsub.service";
 
 const onReloadPage = () => {
-    location.reload(true);
+    location.reload();
     return false;
 };
 
-class Dialog extends React.Component<DialogProps, DialogState> {
+export class Dialog extends React.Component<DialogProps, DialogState> {
     state: DialogState;
 
-    constructor(props, context) {
+    constructor(props: DialogProps, context: any) {
         super(props, context);
 
         this.state = {
@@ -48,7 +48,7 @@ class Dialog extends React.Component<DialogProps, DialogState> {
         setTimeout(() => this.setState({isDisplay: false}), 500);
     }
 
-    onButtonClick(cb) {
+    onButtonClick(cb: () => any) {
         this.hide();
         cb && cb();
     }
@@ -110,7 +110,7 @@ class Dialog extends React.Component<DialogProps, DialogState> {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
 
     return state;
 }
