@@ -1,10 +1,10 @@
 import * as React from "react";
-import {act, render, screen} from "@testing-library/react";
-import {beforeEach, describe, expect, it, Mock, vi} from "vitest";
+import {act, fireEvent, render, screen} from "@testing-library/react";
+import {afterEach, beforeEach, describe, expect, it, Mock, vi} from "vitest";
 
 describe("Testing Dialog.tsx", () => {
     let subscribeOn: Mock<(event: any, handler: any) => any>;
-    let handlers: { [x: string]: () => any; };
+    let handlers: { [x: string]: (...args: any[]) => any; };
     let DialogComponent;
 
     beforeEach(async () => {
@@ -16,6 +16,10 @@ describe("Testing Dialog.tsx", () => {
         vi.doMock("../../services/pubsub.service", () => ({subscribeOn}));
 
         DialogComponent = (await import("./Dialog")).Dialog;
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
     });
 
     it("subscribes to dialog events and shows/hides content", () => {
@@ -38,5 +42,29 @@ describe("Testing Dialog.tsx", () => {
         act(() => vi.advanceTimersByTime(500));
 
         expect(screen.queryByText("Initial text")).toEqual(null);
+    });
+
+    it("sets content, calls content callback, and runs button callbacks", () => {
+        const
+            contentCallback = vi.fn(),
+            buttonCallback = vi.fn();
+
+        render(<DialogComponent/>);
+
+        act(() => handlers["Dialog.setContent"]({
+            header: "Updated",
+            text: "Updated text",
+            callBack: contentCallback,
+            buttonList: [{label: "Confirm", callBack: buttonCallback}]
+        }));
+        act(() => handlers["Dialog.show"]());
+
+        expect(screen.getByText("Updated")).toBeTruthy();
+        expect(screen.getByText("Updated text")).toBeTruthy();
+
+        fireEvent.click(screen.getByText("Confirm"));
+
+        expect(contentCallback).toHaveBeenCalled();
+        expect(buttonCallback).toHaveBeenCalled();
     });
 });
