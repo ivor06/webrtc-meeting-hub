@@ -67,4 +67,24 @@ describe("Testing Dialog.tsx", () => {
         expect(contentCallback).toHaveBeenCalled();
         expect(buttonCallback).toHaveBeenCalled();
     });
+
+    it("renders image, connection status, and error reload affordance", () => {
+        render(
+            <DialogComponent
+                content={{
+                    isError: true,
+                    image: "/image.png",
+                    text: "Image text",
+                    connectionStatus: "Connecting"
+                }}/>
+        );
+
+        act(() => handlers["Dialog.show"]());
+
+        expect(screen.getByText("Error")).toBeTruthy();
+        expect(screen.getByText("Image text")).toBeTruthy();
+        expect(screen.getByText("Connecting")).toBeTruthy();
+        expect(screen.getByText("Reload page")).toBeTruthy();
+        expect((document.querySelector("img") as HTMLImageElement).src).toContain("/image.png");
+    });
 });
