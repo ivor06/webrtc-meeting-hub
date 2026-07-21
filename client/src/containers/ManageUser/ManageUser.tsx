@@ -79,7 +79,7 @@ const
 
 registerPartialSchemaList(Object.keys(fields).map(key => fields[key]));
 
-class ManageUser extends React.Component<ManageUserProps, ManageUserState> {
+export class ManageUser extends React.Component<ManageUserProps, ManageUserState> {
     state: ManageUserState;
     countryOptionList: SelectOption[] = [];
     defaultCountryOption: SelectOption;
