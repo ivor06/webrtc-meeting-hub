@@ -106,4 +106,20 @@ describe("Testing ManageUser.tsx", () => {
         expect(instance.state.provinceOptionList).toEqual([{value: "ON", text: "Ontario"}]);
         expect(instance.state.cityOptionList).toEqual([{value: "ott", text: "Ottawa"}]);
     });
+
+    it("updates field values, applies transforms, and reloads dependent geo lists", () => {
+        const {instance} = createInstance();
+
+        instance.updateUserState({target: {name: "org.kind", value: "2", type: "select-one"}});
+        instance.updateUserState({target: {name: "org.isNeedSendPaperInvoice", checked: true, type: "checkbox"}});
+        instance.updateUserState({target: {name: "org.countryISO", value: "CA", type: "select-one"}});
+        instance.updateUserState({target: {name: "org.provinceISO", value: "ON", type: "select-one"}});
+
+        expect(instance.state.user.org.kind).toEqual(2);
+        expect(instance.state.user.org.isNeedSendPaperInvoice).toEqual(true);
+        expect(instance.state.currentCountryISO).toEqual("CA");
+        expect(instance.state.currentProvinceISO).toEqual("ON");
+        expect(getProvincesByCountry).toHaveBeenCalledWith("CA");
+        expect(getCitiesByCountryAndProvince).toHaveBeenCalledWith("CA", "ON");
+    });
 });
