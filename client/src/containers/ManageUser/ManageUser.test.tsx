@@ -122,4 +122,16 @@ describe("Testing ManageUser.tsx", () => {
         expect(getProvincesByCountry).toHaveBeenCalledWith("CA");
         expect(getCitiesByCountryAndProvince).toHaveBeenCalledWith("CA", "ON");
     });
+
+    it("adds and clears field validation errors on blur", () => {
+        const {instance} = createInstance();
+        validateFormInput.mockReturnValueOnce([{message: "Invalid name"}]).mockReturnValueOnce([]);
+
+        instance.onBlur({target: {name: "org.name"}});
+        expect(instance.state.errors["org.name"]).toEqual("Invalid name");
+
+        instance.onBlur({target: {name: "org.name"}});
+        expect(instance.state.errors["org.name"]).toEqual(undefined);
+    });
+
 });
