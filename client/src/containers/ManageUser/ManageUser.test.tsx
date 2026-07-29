@@ -134,4 +134,16 @@ describe("Testing ManageUser.tsx", () => {
         expect(instance.state.errors["org.name"]).toEqual(undefined);
     });
 
+    it("saveUser reports validation errors without saving", () => {
+        const
+            {instance, props} = createInstance(),
+            event = {preventDefault: vi.fn()};
+        validateUser.mockReturnValue([{message: "Invalid user"}]);
+
+        instance.saveUser(event);
+
+        expect(event.preventDefault).toHaveBeenCalled();
+        expect(notificationError).toHaveBeenCalledWith("Invalid user");
+        expect(props.actions.save).not.toHaveBeenCalled();
+    });
 });
