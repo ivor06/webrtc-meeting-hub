@@ -146,4 +146,18 @@ describe("Testing ManageUser.tsx", () => {
         expect(notificationError).toHaveBeenCalledWith("Invalid user");
         expect(props.actions.save).not.toHaveBeenCalled();
     });
+
+    it("saveUser saves, notifies, and navigates on success", async () => {
+        const
+            {instance, props} = createInstance(),
+            event = {preventDefault: vi.fn()};
+
+        instance.saveUser(event);
+        await Promise.resolve();
+
+        expect(props.actions.save).toHaveBeenCalledWith(instance.state.user);
+        expect(notificationSuccess).toHaveBeenCalledWith("User saved");
+        expect(props.navigate).toHaveBeenCalledWith("/");
+        expect(instance.state.isSaving).toEqual(false);
+    });
 });
