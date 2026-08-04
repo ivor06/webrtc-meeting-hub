@@ -160,4 +160,18 @@ describe("Testing ManageUser.tsx", () => {
         expect(props.navigate).toHaveBeenCalledWith("/");
         expect(instance.state.isSaving).toEqual(false);
     });
+
+    it("login authenticates, notifies, and navigates on success", async () => {
+        const
+            {instance, props} = createInstance({routePath: "/signin"}),
+            event = {preventDefault: vi.fn()};
+
+        instance.login(event);
+        await Promise.resolve();
+
+        expect(props.actions.login).toHaveBeenCalledWith(instance.state.user.local);
+        expect(notificationSuccess).toHaveBeenCalledWith("User logged in");
+        expect(props.navigate).toHaveBeenCalledWith("/");
+        expect(instance.state.isSaving).toEqual(false);
+    });
 });
