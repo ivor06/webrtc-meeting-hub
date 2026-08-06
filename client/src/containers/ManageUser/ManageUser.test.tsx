@@ -174,4 +174,32 @@ describe("Testing ManageUser.tsx", () => {
         expect(props.navigate).toHaveBeenCalledWith("/");
         expect(instance.state.isSaving).toEqual(false);
     });
+
+    it("saveUser and login show mapped errors on failure", async () => {
+        const
+            saveError = new Error("Save failed"),
+            loginError = new Error("Login failed"),
+            saveCase = createInstance({
+                actions: {
+                    save: vi.fn(() => Promise.reject(saveError)),
+                    login: vi.fn()
+                }
+            }),
+            loginCase = createInstance({
+                routePath: "/signin",
+                actions: {
+                    save: vi.fn(),
+                    login: vi.fn(() => Promise.reject(loginError))
+                }
+            });
+
+        saveCase.instance.saveUser({preventDefault: vi.fn()});
+        await Promise.resolve();
+        loginCase.instance.login({preventDefault: vi.fn()});
+        await Promise.resolve();
+        await Promise.resolve();
+
+        expect(notificationError).toHaveBeenCalledWith("Save failed");
+        expect(notificationError).toHaveBeenCalledWith("Login failed");
+    });
 });
