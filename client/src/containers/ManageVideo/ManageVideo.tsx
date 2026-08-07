@@ -11,7 +11,7 @@ import {uploadFile} from "../../services/user.service";
 import {notificationError, notificationSuccess} from "../../services/notification.service";
 import {User} from "../../../../common/classes/User";
 
-class ManageVideo extends React.Component<ManageVideoProps, ManageVideoState> {
+export class ManageVideo extends React.Component<ManageVideoProps, ManageVideoState> {
     state: ManageVideoState;
 
     private localVideo: HTMLVideoElement;
