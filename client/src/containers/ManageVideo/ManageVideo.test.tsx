@@ -1,5 +1,5 @@
 import { Context } from "react";
-import {beforeEach, describe, expect, it, Mock, vi} from "vitest";
+import {afterEach, beforeEach, describe, expect, it, Mock, vi} from "vitest";
 import {ManageVideo} from "./ManageVideo";
 
 describe("Testing ManageVideo.tsx", () => {
@@ -78,6 +78,11 @@ describe("Testing ManageVideo.tsx", () => {
         ManageVideoComponent = (await import("./ManageVideo")).ManageVideo;
     });
 
+    afterEach(() => {
+        vi.useRealTimers();
+        document.body.innerHTML = "";
+    });
+
     it("subscribes to video and call events on mount", () => {
         const {instance} = createInstance();
 
@@ -88,5 +93,21 @@ describe("Testing ManageVideo.tsx", () => {
         expect(subscribeOn).toHaveBeenCalledWith("call", instance.onRemoteCall);
         expect(subscribeOn).toHaveBeenCalledWith("video.src", instance.onVideoSrc);
         expect(subscribeOn).toHaveBeenCalledWith("reject", instance.onReject);
+    });
+
+    it("shows an incoming call and rejects calls while already calling", () => {
+        const {instance} = createInstance();
+
+        instance.onRemoteCall("remote-user");
+
+        expect(instance.state.isRemoteCallRequest).toEqual(true);
+        expect(instance.state.remoteUserId).toEqual("remote-user");
+        expect(instance.state.isDisplay).toEqual(true);
+
+        instance.state.isCalling = true;
+        instance.onRemoteCall("remote-user");
+
+        expect(sendReject).toHaveBeenCalledWith("remote-user");
+        expect(notificationSuccess).toHaveBeenCalledWith("Remote User is calling you...");
     });
 });
