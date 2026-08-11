@@ -110,4 +110,24 @@ describe("Testing ManageVideo.tsx", () => {
         expect(sendReject).toHaveBeenCalledWith("remote-user");
         expect(notificationSuccess).toHaveBeenCalledWith("Remote User is calling you...");
     });
+
+    it("accepts and rejects a remote call", () => {
+        const {instance} = createInstance();
+        const event = {stopPropagation: vi.fn()};
+
+        instance.state.remoteUserId = "remote-user";
+        instance.accept(event);
+
+        expect(event.stopPropagation).toHaveBeenCalled();
+        expect(sendAccept).toHaveBeenCalledWith("remote-user");
+        expect(startRTCConnection).toHaveBeenCalledWith("remote-user");
+        expect(instance.state.isCalling).toEqual(true);
+
+        instance.reject();
+
+        expect(sendReject).toHaveBeenCalledWith("remote-user");
+        expect(instance.state.hasCallRejected).toEqual(true);
+        vi.runAllTimers();
+        expect(instance.state.hasCallRejected).toEqual(false);
+    });
 });
