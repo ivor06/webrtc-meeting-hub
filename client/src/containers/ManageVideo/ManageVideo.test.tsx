@@ -130,4 +130,25 @@ describe("Testing ManageVideo.tsx", () => {
         vi.runAllTimers();
         expect(instance.state.hasCallRejected).toEqual(false);
     });
+
+    it("calls, hangs up, and handles video sources", () => {
+        const {instance} = createInstance();
+        const event = {stopPropagation: vi.fn()};
+
+        instance.state.remoteUserId = "remote-user";
+        instance.onCall(event);
+        expect(event.stopPropagation).toHaveBeenCalled();
+        expect(sendCall).toHaveBeenCalledWith("remote-user");
+
+        instance.hangUp();
+        expect(sendHangUp).toHaveBeenCalledWith("remote-user");
+        expect(hangUpRtc).toHaveBeenCalled();
+        expect(instance.state.isCalling).toEqual(false);
+
+        document.body.innerHTML = '<video id="localVideo"></video><video id="remoteVideo"></video>';
+        instance.onVideoSrc("local", "local.webm");
+        instance.onVideoSrc("remote", "remote.webm");
+        expect((document.getElementById("localVideo") as HTMLVideoElement).src).toContain("local.webm");
+        expect((document.getElementById("remoteVideo") as HTMLVideoElement).src).toContain("remote.webm");
+    });
 });
