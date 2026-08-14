@@ -151,4 +151,29 @@ describe("Testing ManageVideo.tsx", () => {
         expect((document.getElementById("localVideo") as HTMLVideoElement).src).toContain("local.webm");
         expect((document.getElementById("remoteVideo") as HTMLVideoElement).src).toContain("remote.webm");
     });
+
+    it("toggles media testing and creates screenshots", () => {
+        const {instance} = createInstance();
+        const event = {stopPropagation: vi.fn()};
+        const drawImage = vi.fn();
+        const canvas = document.createElement("canvas");
+        const localVideo = document.createElement("video");
+
+        vi.spyOn(canvas, "getContext").mockReturnValue({drawImage} as any);
+        Object.defineProperty(localVideo, "videoWidth", {value: 640});
+        Object.defineProperty(localVideo, "videoHeight", {value: 480});
+        canvas.id = "localCanvas";
+        localVideo.id = "localVideo";
+        document.body.append(canvas, localVideo);
+
+        instance.test(event);
+        expect(getMedia).toHaveBeenCalled();
+        expect(instance.state.isTesting).toEqual(true);
+        instance.test(event);
+        expect(getMedia).toHaveBeenCalledTimes(1);
+
+        instance.localVideo = localVideo;
+        instance.makeScreenshot(event);
+        expect(drawImage).toHaveBeenCalledWith(localVideo, 0, 0, 640, 480);
+    });
 });
