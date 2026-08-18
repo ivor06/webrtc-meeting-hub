@@ -176,4 +176,20 @@ describe("Testing ManageVideo.tsx", () => {
         instance.makeScreenshot(event);
         expect(drawImage).toHaveBeenCalledWith(localVideo, 0, 0, 640, 480);
     });
+    
+    it("shows and hides the video dialog", () => {
+        const {instance} = createInstance();
+
+        instance.show("remote-user", true);
+        expect(instance.state.isDisplay).toEqual(true);
+        expect(instance.state.isTestMode).toEqual(true);
+        expect(instance.state.remoteUserId).toEqual("remote-user");
+        vi.runAllTimers();
+        expect(instance.state.isAnimation).toEqual(true);
+
+        instance.hide();
+        expect(instance.state.remoteUserId).toEqual(null);
+        vi.runAllTimers();
+        expect(instance.state.isDisplay).toEqual(false);
+    });
 });
