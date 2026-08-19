@@ -1,4 +1,5 @@
 import { Context } from "react";
+import {render} from "@testing-library/react";
 import {afterEach, beforeEach, describe, expect, it, Mock, vi} from "vitest";
 import {ManageVideo} from "./ManageVideo";
 
@@ -176,7 +177,7 @@ describe("Testing ManageVideo.tsx", () => {
         instance.makeScreenshot(event);
         expect(drawImage).toHaveBeenCalledWith(localVideo, 0, 0, 640, 480);
     });
-    
+
     it("shows and hides the video dialog", () => {
         const {instance} = createInstance();
 
@@ -191,5 +192,26 @@ describe("Testing ManageVideo.tsx", () => {
         expect(instance.state.remoteUserId).toEqual(null);
         vi.runAllTimers();
         expect(instance.state.isDisplay).toEqual(false);
+    });
+
+    it("renders the partner, testing, calling, and incoming-call states", () => {
+        const {instance} = createInstance();
+
+        render(instance.render());
+        instance.state.remoteUserId = "remote-user";
+        render(instance.render());
+        instance.state.isTestMode = true;
+        instance.state.remoteUserId = null;
+        render(instance.render());
+        instance.state.isTesting = true;
+        render(instance.render());
+        instance.state.isCalling = true;
+        instance.state.isRemoteCallRequest = false;
+        render(instance.render());
+        instance.state.isCalling = false;
+        instance.state.isRemoteCallRequest = true;
+        render(instance.render());
+
+        expect(instance.render()).toBeTruthy();
     });
 });
