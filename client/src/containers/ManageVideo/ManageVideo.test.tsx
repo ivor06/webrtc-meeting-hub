@@ -214,4 +214,32 @@ describe("Testing ManageVideo.tsx", () => {
 
         expect(instance.render()).toBeTruthy();
     });
+
+    it("handles rejected messaging and media operations", async () => {
+        const {instance} = createInstance();
+        const event = {stopPropagation: vi.fn(), preventDefault: vi.fn()};
+        const error = new Error("failed");
+
+        sendReject.mockRejectedValue(error);
+        sendAccept.mockRejectedValue(error);
+        sendCall.mockRejectedValue(error);
+        sendHangUp.mockRejectedValue(error);
+        uploadFile.mockRejectedValue(error);
+        const form = document.createElement("form");
+        form.id = "form-image";
+        document.body.append(form);
+
+        instance.state.remoteUserId = "remote-user";
+        instance.onRemoteCall("remote-user");
+        instance.accept(event);
+        instance.reject();
+        instance.onCall(event);
+        instance.hangUp();
+        instance.saveImage(event);
+        await Promise.resolve();
+        await Promise.resolve();
+
+        expect(notificationError).toHaveBeenCalledWith("Connection refused");
+        expect(event.preventDefault).toHaveBeenCalled();
+    });
 });
