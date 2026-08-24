@@ -242,4 +242,29 @@ describe("Testing ManageVideo.tsx", () => {
         expect(notificationError).toHaveBeenCalledWith("Connection refused");
         expect(event.preventDefault).toHaveBeenCalled();
     });
+
+    it("handles file input, empty dialog states, and prop updates", () => {
+        const {instance} = createInstance();
+        const input = document.createElement("input");
+        const preview = document.createElement("img");
+        const form = document.createElement("form");
+        const file = new File(["image"], "image.png", {type: "image/png"});
+        input.id = "avatar";
+        Object.defineProperty(input, "files", {value: [file]});
+        preview.id = "preview";
+        form.id = "form-image";
+        document.body.append(input, preview, form);
+        vi.spyOn(FileReader.prototype, "readAsDataURL");
+
+        instance.onInputFileChange({preventDefault: vi.fn()});
+        expect(preview.classList.contains("obj")).toEqual(true);
+        expect(FileReader.prototype.readAsDataURL).toHaveBeenCalledWith(file);
+
+        instance.hide();
+        instance.show();
+        instance.state.isAnimation = true;
+        instance.show();
+        instance.componentWillReceiveProps({user: {id: "new-user"}, userList: []} as any);
+        expect(instance.state.userId).toEqual("new-user");
+    });
 });
