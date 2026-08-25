@@ -12,6 +12,12 @@ export default defineConfig({
         include: ["src/**/*.test.ts", "src/**/*.test.tsx"],
         coverage: {
             provider: "v8",
+            thresholds: {
+                statements: 60,
+                branches: 60,
+                functions: 60,
+                lines: 60
+            },
             include: ["src/**/*.{ts,tsx}"],
             exclude: [
                 "src/main.tsx",
