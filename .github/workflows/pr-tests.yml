@@ -35,6 +35,9 @@ jobs:
       - name: Run client tests
         run: npm run test:client
 
+      - name: Verify client coverage
+        run: npm --workspace client run test:coverage
+
       - name: Run server tests
         run: npm run test:server
 
